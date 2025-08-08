@@ -1,0 +1,8 @@
+.content-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80dvh;
+    width: 100dvw;
+    background-color: #c44242;
+}
