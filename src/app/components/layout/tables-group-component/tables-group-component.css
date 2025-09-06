@@ -1,0 +1,53 @@
+.layout {
+  width: 500px;
+  max-width: 80dvw;
+  height: auto;
+  background-color: transparent;
+  border: 1px solid #80624f;
+  border-radius: 0.5rem;
+  padding: 0;
+  margin: 0; 
+}
+/* Modificación estilos bootstrap */
+#add-table-button:hover {
+  background-color: #80624f;
+  color: #F5EFE9;
+}
+#add-table-button {
+  border-color: #80624f;
+  color: #80624f;
+  height: 3rem;
+}
+
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.available {
+  width: 15px;
+  height: 15px;
+  background-color: var(--available-color);
+  border-radius: 50%;
+}
+.occupied{
+  width: 15px;
+  height: 15px;
+  background-color: var(--occupied-color);
+  border-radius: 50%;
+}
+.reserved{
+  width: 15px;
+  height: 15px;
+  background-color: var(--reserved-color);
+  border-radius: 50%;
+}
+
+.w6rem{
+  width: 6rem;
+}
+
+
+
+

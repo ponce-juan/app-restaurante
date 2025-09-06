@@ -1,0 +1,54 @@
+<!-- Modelo de layout introduciendo mesas manualmente, en formato "grilla" -->
+<main class="d-flex flex-lg-row flex-column align-items-center gap-3 ">
+    <div>
+        <h2 class="title text-center">Layout de mesas</h2>
+        <div class="d-flex justify-content-center align-items-center gap-4">
+            <div class="d-flex flex-column align-items-center gap-1 w6rem">
+                <span class="available"></span>
+                <p class="m-0 p-0 text-center">Libre</p>
+            </div>
+            <div class="d-flex flex-column align-items-center gap-1 w6rem">
+                <span class="occupied"></span>
+                <p class="m-0 p-0 text-center">Ocupada</p>
+            </div>
+            <div class="d-flex flex-column align-items-center gap-1 w6rem">
+                <span class="reserved"></span>
+                <p class="m-0 p-0 text-center">Reservada</p>
+            </div>
+        </div>
+        <div class="container text-center layout">
+            <div class="row row-cols-6 g-1">
+                @for(table of tableManager.tables(); track $index){
+                        <app-table-component
+                            [setTable]="table"
+                            (selectedTable)="openMenu($event)"
+                            >
+                        </app-table-component>
+                }
+                <div class="col p-1">
+                    <button
+                        id="add-table-button" 
+                        type="button" 
+                        class="btn btn-outline-secondary w-100 "
+                        (click)="addTable()"    
+                    >+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Side panel para las mesas -->
+     @if(this.menuIsOpen && this.selectedTable){
+        <!-- Sidepanel table-menu component -->
+         <app-table-menu 
+            [table] = "selectedTable"
+            [isOpen] = "menuIsOpen"
+            
+            (closeMenu) = "closeMenu()"
+         />
+    }
+</main>
+<!-- 
+    (statusChange) = "changeStatus($event)" 
+    (addItemEvent) = "addItem($event)"
+ 
+-->

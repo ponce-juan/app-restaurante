@@ -1,12 +1,29 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/layout/home/home';
-import { App } from './app';
+import { authGuard } from './core/guards/auth-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 export const routes: Routes = [
-    {path: '', 
-        component: App, 
-        children: [
-            {path: 'home', component: Home}
-
-        ]},
+    {
+        path: '',
+        loadComponent: () => import("./app").then(c => c.App)
+    },
+    {
+        canMatch: [authGuard],
+        path: 'home',
+        loadComponent: () => import("./components/layout/home/home").then(c => c.Home),
+    },
+    {
+        canMatch: [guestGuard],
+        path: 'login',
+        loadComponent: () => import('./components/layout/login/login').then(c => c.Login)
+    },
+    {
+        canMatch: [authGuard],
+        path: 'tables',
+        loadComponent: () => import('./components/layout/tables-group-component/tables-group-component').then(c => c.TablesGroupComponent)
+    },
+    {
+        path: '**',
+        redirectTo: 'login'
+    }
 ];

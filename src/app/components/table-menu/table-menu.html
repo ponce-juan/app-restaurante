@@ -1,0 +1,90 @@
+<div class="side-menu" [class.open]="isOpen">
+            <div class="side-menu-header">
+                <h5>{{ table.name }} - Estado: {{ table.status.toUpperCase() }}</h5>
+                <button type="button" class="btn btn-close" (click)="onCloseMenu()"></button>
+            </div>
+    
+            <div class="side-menu-body">
+                <!-- Orden de la mesa -->
+                @if(table.order && table.order.items.length > 0){
+                    <h5>Orden N°: {{ table.order.id }}</h5>
+                    <div class="table-list">
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                            <th>Cantidad</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(item of this.table.order.items; track $index){
+                                <tr>
+                                <th scope="row">{{ item.quantity }}</th>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.price * item.quantity }}</td>
+                                <td>
+                                    <div class="d-flex flex-row justify-content-around">
+                                        <button 
+                                            type="button" 
+                                            class="btn p-1"
+                                            (click)="editItem(this.table.id, item)"
+                                            >✏️</button>
+                                        <button 
+                                            type="button" 
+                                            class="btn p-1"
+                                            (click)="removeItem(item)"
+                                            >✖️</button>
+                                    </div>
+                                </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold text-decoration-underline">Total: </td>
+                                <td>{{ table.order.total }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                }
+    
+                <div class="d-flex flex-row justify-content-between">
+                    <button class="btn btn-outline-success mt-2" (click)="addItem(table)">Agregar producto</button>
+                    @if(table.status === 'occupied' && table.order != null && table.order.items.length > 0){
+                        <button class="btn btn-outline-secondary mt-2" (click)="printCheck()">Generar factura</button>
+                    }
+                </div>
+            </div>
+    
+            <div class="side-menu-footer">
+                <button class="btn btn-success" (click)="changeStatus('available')">Disponible</button>
+                <button class="btn btn-danger" (click)="changeStatus('occupied')">Ocupada</button>
+                <button class="btn btn-warning" (click)="changeStatus('reserved')">Reservada</button>
+                <button class="btn btn-dark" (click)="onCloseMenu()">Cerrar</button>
+            </div>
+        </div>
+
+        @if(editItemMenu()){
+            <div class="edit-item-menu" [class.open]="editItemMenu()">
+                <div class="edit-item-header">
+                    <h5>Editar cantidad del item</h5>
+                    <button type="button" class="btn btn-close" (click)="closeEditMenu()"></button>
+                </div>
+                <div class="edit-item-body">
+                    <input 
+                    type="number" 
+                    name="quantity" id="quantity" min="1" 
+                    placeholder="Cantidad" 
+                    value="{{ itemToEdit().quantity }}"
+                    #quantityInput>
+                </div>
+                <div class="edit-item-footer">
+                    <button class="btn btn-primary" (click)="saveItemChanges(quantityInput.valueAsNumber)">Guardar</button>
+                    <button class="btn btn-secondary" (click)="closeEditMenu()">Cancelar</button>
+                </div>
+            </div>
+        }

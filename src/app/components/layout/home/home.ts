@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './home.css'
 })
 export class Home {
-  protected readonly title = 'Welcome to the Restaurant App';
+  protected readonly title = 'Home Page Restaurant';
   
   constructor() {
     console.log("Home component loaded");

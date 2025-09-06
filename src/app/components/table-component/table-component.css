@@ -1,0 +1,41 @@
+
+.table-element {
+    padding: 0;
+    margin: 2px;
+    /* width: 2.5rem; */
+    width: auto;
+    height: 3rem;
+    cursor: pointer;
+    color: var(--table-text-color);
+    background-color: var(--table-color);
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-list{
+    width: 100%;
+    height: auto;
+    max-height: 65vh;
+    overflow: hidden scroll;
+}
+
+.available {
+    border: 3px solid var(--available-color);
+}
+.occupied {
+    border: 3px solid var(--occupied-color); 
+}
+.reserved {
+    border: 3px solid var(--reserved-color); 
+}
+.custom-modal {
+    width: 65%;
+    max-width: 85dvw;
+    height: 80%;
+}
+
+.custom-modal .modal-content {
+    height: 100%;
+}

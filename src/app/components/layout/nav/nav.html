@@ -1,14 +1,29 @@
 <ul class="nav nav-underline">
-  <li class="nav-item">
-    <button class="nav-link" [routerLink]="['home']">Home</button>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" aria-current="page" >Active</a>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" [routerLink]="['']">Root</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link " (click)="openLoginSidebar()">Log in</button>
-  </li>
+  
+  @let isLogged = isLoggedIn();
+  @if (isLogged) {
+    <li class="nav-item">
+      <a class="text-body-tertiary" [routerLink]="['home']">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="text-body-tertiary" >Menu</a>
+    </li>
+    <li class="nav-item">
+      <a class="text-body-tertiary" [routerLink]="['tables']">Mesas</a>
+    </li>
+    <li class="nav-item">
+      <a class="text-body-tertiary" [routerLink]="['']">Principal</a>
+    </li>
+    <li class="nav-item">
+      <a class="text-body-tertiary " (click)="logout()">Log out</a>
+    </li>
+  }
+
+  @if (!isLogged) {
+    <li class="nav-item">
+      <a class="text-body-tertiary " [routerLink]="['login']">Log in</a>
+    </li>
+
+  }
+
 </ul>

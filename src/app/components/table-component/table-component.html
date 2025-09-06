@@ -1,0 +1,77 @@
+<!-- Modelo de componente -->
+<div 
+    class="table-element col"
+    [ngClass]="{
+        'available': setTable.status === 'available',
+        'occupied': setTable.status === 'occupied',
+        'reserved': setTable.status === 'reserved',
+    }"
+    (click)="openMenu()"
+ >
+    <p class="text-center m-0 fs-6"> {{ setTable.name }} </p>
+</div>
+
+
+<!-- <div
+  class="modal fade show"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; background-color: rgba(0,0,0,0.6);"
+>
+  <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
+    <div class="modal-content bg-dark text-light ">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                {{ setTable.name }} - Estado: {{ setTable.status.toUpperCase() }} 
+            </h5>
+            <button type="button" class="btn btn-close" (click)="closeMenu()">
+            </button>
+        </div>
+        <div class="modal-body gap-2">
+            <!-- Muestro las ordenes creadas y sus productos -->
+            <!-- @if(setTable.order && setTable.order.items.length > 0){
+                <h5>Orden N°: {{setTable.order.id}}</h5> -->
+                <!-- Lista de item de la orden -->
+                <!-- <div class="table-list">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(item of setTable.order.items; track $index){
+                                <tr>
+                                    <th scope="row">{{item.quantity}}</th>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.price * item.quantity}}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                } -->
+            <!-- <button 
+                type="button" 
+                class="btn btn-outline-info" 
+                (click)="addItem()"
+            >Agregar producto</button>
+        </div> -->
+
+        <!-- Botones para cambiar el estado de la mesa -->
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="changeStatus('available')">Disponible</button>
+            <button type="button" class="btn btn-danger" (click)="changeStatus('occupied')">Ocupada</button>
+            <button type="button" class="btn btn-warning" (click)="changeStatus('reserved')">Reservada</button>
+            <button type="button" class="btn btn-dark" (click)="closeMenu()">Cerrar</button>
+        </div>
+    </div>
+  </div>
+</div> --> 
+
+
+<!-- } -->

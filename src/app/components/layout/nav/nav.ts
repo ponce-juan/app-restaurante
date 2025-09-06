@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { SidebarService } from '../../../services/sidebar.service';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -12,13 +12,17 @@ import { RouterLink } from '@angular/router';
 })
 export class Nav {
 
-  constructor(public sidebarService:SidebarService) { 
-    console.log("Nav component loaded");
+  authService = inject(AuthService);
+
+  logout() {
+    this.authService.logout();
+    console.log("Logged out");
   }
 
-  openLoginSidebar() {
-    console.log("Opening login sidebar");
-    this.sidebarService.toggle();
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
+  
+
 
 }
