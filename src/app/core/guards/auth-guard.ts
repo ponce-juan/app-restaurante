@@ -5,12 +5,6 @@ import { map } from 'rxjs';
 
 export const authGuard: CanMatchFn = (route, segments) => {
   return inject(AuthService).currentUser$.pipe(
-    map( user => {
-      if (user) {
-        return true;
-      } 
-        // Optionally, redirect to login page
-        return false;
-    })
+    map( user => !!user)
   );
 };

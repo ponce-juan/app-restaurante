@@ -9,7 +9,8 @@ import { Component } from '@angular/core';
 })
 export class Home {
   protected readonly title = 'Home Page Restaurant';
-  
+  public name : string = "";
+
   constructor() {
     console.log("Home component loaded");
   }

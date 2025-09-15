@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environment/environments';
+import { HttpClient } from '@angular/common/http';
+import { LoginRequest } from '../model/login.request';
 
 @Injectable({
   providedIn: 'root'
@@ -7,23 +10,28 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private isAuthenticated = false;
   private isBrowser = typeof window !== 'undefined';
+  private apiUrl = environment.apiUrl;
+  private http = inject(HttpClient);
 
   private _currentUser = new BehaviorSubject<string | null>(null);
   currentUser$ = this._currentUser.asObservable();
 
 
-  login(username: string, password: string): boolean {
-    // Simulate a login process
-    if (username === 'admin' && password === 'admin') {
-      if (this.isBrowser){
-        localStorage.setItem('user', JSON.stringify(username));
-        this.isAuthenticated = true;
-        this._currentUser.next(username);
-      }
 
-      return true;
-    }
-    return false;
+  login(loginRequest: LoginRequest): Observable<{token: string}> {
+
+    const endpoint:string = `${this.apiUrl}${environment.endpoints.login}`;
+
+    return this.http.post<{token:string}>(endpoint, loginRequest).pipe(
+      tap( response => {
+        if(this.isBrowser){
+          localStorage.setItem('user', response.token);
+          this.isAuthenticated = true;
+          this._currentUser.next(response.token);
+        }
+      })
+    );
+
   }
 
   logout(): void {

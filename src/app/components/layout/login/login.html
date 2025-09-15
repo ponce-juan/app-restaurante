@@ -11,7 +11,7 @@
         type="text"
         id="usuario"
         name="usuario"
-        [(ngModel)]="user"
+        [(ngModel)]="loginRequest.username"
         required
         placeholder="Ingrese su usuario"
         />
@@ -24,7 +24,7 @@
         type="password"
         id="password"
         name="password"
-        [(ngModel)]="password"
+        [(ngModel)]="loginRequest.password"
         required
         placeholder="Ingrese su contraseña"
         />

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginRequest } from '../../../model/login.request';
 
 @Component({
   selector: 'app-login',
@@ -13,21 +14,29 @@ import { Router } from '@angular/router';
 })
 export class Login {
 
-  public user:  string = "";
-  public password: string = "";
+  loginRequest: LoginRequest = {
+                                  username: '',
+                                  password: ''
+                                };
   authService = inject(AuthService);
   router = inject(Router);
   
   onLogin() {
-    if(this.authService.login(this.user, this.password)) {
-      console.log("Login successful");
-      this.router.navigate(['/home']);
-    }else{
-      console.log("Login failed");
-      alert("Invalid username or password");
-      this.user = "";
-      this.password = "";
-    }
+    this.authService.login(this.loginRequest).subscribe(
+      {
+        next: () => {
+          console.log("Login successful");          
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error("Login failed", error.message);
+          alert("Invalid username or password");
+          this.loginRequest.username = "";
+          this.loginRequest.password = "";
+        }
+      }
+    );
+    
   }
 
 }
