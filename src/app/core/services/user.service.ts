@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environment/environments';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../environment/environments';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) { }
-
-
+  private apiUrl = environment.baseUrl;
+  private http = inject(HttpClient);
+  
+  
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}${environment.endpoints.users}`);
   }

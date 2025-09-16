@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { Item, Order, Table } from '../table-component/table-component';
-import { TableManagerService } from '../../services/table-manager-service';
+import { TableManagerService } from '../../core/services/table-manager-service';
 import jsPDF from 'jspdf';
 
 @Component({

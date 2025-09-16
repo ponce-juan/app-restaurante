@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest } from '../../../model/login.request';
+import { LoginRequest } from '../../../interfaces/login.request';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class Login {
   onLogin() {
     this.authService.login(this.loginRequest).subscribe(
       {
-        next: () => {
+        next: (data) => {
           console.log("Login successful");          
           this.router.navigate(['/home']);
         },
@@ -36,7 +36,6 @@ export class Login {
         }
       }
     );
-    
   }
 
 }

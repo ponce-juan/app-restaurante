@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Item, Order, Table } from '../components/table-component/table-component';
+import { Item, Order, Table } from '../../components/table-component/table-component';
 
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, inject, OnInit, Output, signal, Vi
 import { TableComponent } from '../../table-component/table-component';
 import { Table, Order, Item } from '../../table-component/table-component';
 import { TableMenu } from '../../table-menu/table-menu';
-import { TableManagerService } from '../../../services/table-manager-service';
+import { TableManagerService } from '../../../core/services/table-manager-service';
 
 
 @Component({
