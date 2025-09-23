@@ -1,25 +1,19 @@
 .side-menu {
-  width: 0;
+  width: auto;
+  max-width: 70dvw;
   height: 100%;
   border-radius: 0.5rem;
-  background-color: var(--gray);
+  background-color: var(--table-management-bg-color);
   color: var(--text-dark-color);
   display: flex;
   flex-direction: column;
-  transition: right 0.5s ease-in-out;
-}
-
-.side-menu.open {
-  width: 500px;
-  max-width: 60dvw;
-  max-height: 60dvh;
-
+  transition: all 2s ease-in-out;
 }
 
 .side-menu-header,
 .side-menu-footer {
-  padding: 1rem;
-  border-bottom: 1px solid var(--text-dark-color);
+  padding: .5rem;
+  border-bottom: 1px solid var(--border-color);
 
   display: flex;
   flex-direction: row;
@@ -28,19 +22,21 @@
 }
 
 .side-menu-footer {
-  border-top: 1px solid var(--text-dark-color);
+  border-top: 1px solid var(--border-color);
   border-bottom: none;
-  margin-top: auto;
+}
+.side-menu-footer input {
+  width: 30%;
 }
 .side-menu-footer button {
-  font-size: 14px;
-  padding: 0.25rem 0.6rem;
+  font-size: .9rem;
 }
 
 .side-menu-header h5 {
   margin: 0;
   text-align: left;
   vertical-align: middle;
+  font-size: 1rem;
 }
 
 .side-menu-body {
@@ -52,11 +48,15 @@
 }
 
 .table-list{
-  height: 80%;
-  max-height: 30vh;
+  height: auto;
+  max-height: 40vh;
   overflow-y: auto;
-  margin-top: 1rem;
   border-radius: 0.25rem;
+  font-size: .9rem;
+  font-weight: 300;
+}
+tbody tr {
+  cursor: pointer;
 }
 
 .edit-item-menu{

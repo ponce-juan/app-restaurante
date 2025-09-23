@@ -39,7 +39,7 @@ export const routes: Routes = [
         data: {
             roles: ['ADMIN', 'SUPERVISOR']
         },
-        loadComponent: () => import('./components/layout/products.menu/products.menu').then(c => c.ProductsMenu),
+        loadComponent: () => import('./components/layout/products-management/products-management').then(c => c.ProductsManagement),
     },
     {
         canMatch: [authGuard],
@@ -48,7 +48,8 @@ export const routes: Routes = [
         data: {
             roles: ['ADMIN']
         }
-        , loadChildren: () => import('./components/layout/admin/admin').then(m => m.Admin)
+        , 
+        loadComponent: () => import('./components/layout/admin/admin').then(m => m.Admin)
     },
     {
         path: '**',

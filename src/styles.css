@@ -2,11 +2,17 @@
   /* --body-bg-color: #ebd1c9; */
   --body-bg-color: #ececeb;
   --gray: #c4c4c4;
-  --table-color: #947a6a;
+  --table-management-bg-color: #dadadac4;
   --table-text-color: #F5EFE9;
-  --available-color: #4CAF50;
-  --occupied-color: #F44336;
-  --reserved-color: #FF9800;
+  --available-color: #4caf4fa9;
+  --available-bg-color: #90ee904d;
+  --occupied-color: #f4433698;
+  --occupied-bg-color: #f7a2a24d;
+  --reserved-color: #ff99009d;
+  --reserved-bg-color: #e0aa334d;
+
+  --border-color: #838383b0;
+
   --text-dark-color: #333;
   --text-light-color: #F5EFE9;
 }

@@ -9,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class Admin {
 
+  constructor() {
+    console.log("Admin component loaded");
+  }
+
 }

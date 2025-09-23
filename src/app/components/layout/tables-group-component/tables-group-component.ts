@@ -1,33 +1,101 @@
-import { Component, ElementRef, EventEmitter, inject, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit,signal } from '@angular/core';
 import { TableComponent } from '../../table-component/table-component';
-import { Table, Order, Item } from '../../table-component/table-component';
-import { TableMenu } from '../../table-menu/table-menu';
 import { TableManagerService } from '../../../core/services/table-manager-service';
+import { TableManagement } from '../../table-management/table-management';
+import { Product } from '../../../interfaces/products';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Order, Table } from '../../../interfaces/table';
+import { environment } from '../../../../environment/environments';
 
 
 @Component({
   selector: 'app-tables-group-component',
   standalone: true,
-  imports: [TableComponent, TableMenu],
+  imports: [TableComponent, TableManagement],
   templateUrl: './tables-group-component.html',
   styleUrl: './tables-group-component.css'
 })
 export class TablesGroupComponent implements OnInit{
 
-  @ViewChild('layout', {static: true}) layoutRef!: ElementRef;
-  @ViewChild(TableComponent) tableChild!: TableComponent;
-  tableManager = inject(TableManagerService);
+  private _destroyRef : DestroyRef = inject(DestroyRef);
 
-  // draggingTable: Table | null = null;
-  // selectedTable = signal<Table | null>(null);
+  private _tableManagerService = inject(TableManagerService);
+  private _tables = signal<Table[]>([]);
+  public tables = this._tables.asReadonly();
+  private _products = signal<Product[]>([]);
+  public products = this._products.asReadonly();
+  private tablesKey = environment.tableKeyLocalStorage;
+
+
   selectedTable: Table | null = null;
+  order:  Order | null = null;
   menuIsOpen: boolean = false;
+  
+  ngOnInit(): void {
+    this.loadTables();
+    this.loadProducts();
+  }
 
-  // Lista de mesas incluidas en el layout de mesas
-  // tables: Table[] = [];
 
-  ngOnInit(): void {}
+  private loadTables(): void{
+    const tables = this._tableManagerService.getLocalTables();
+    if(tables){
+      this._tables.set(tables);
+      this._tableManagerService.setLocalTables(this.tables());
+      return;
+    }
 
+    this._tableManagerService.loadTables()
+    .pipe(takeUntilDestroyed(this._destroyRef))
+    .subscribe({
+      next: (mesas) => {
+        const newTables: Table[] = [];
+        for(let i=1; i<=mesas; i++){
+          newTables.push({
+              id: i,
+              name: `Mesa ${i}`,
+              status: 'available'
+          });
+        }
+        this._tables.set(newTables)
+        this._tableManagerService.setLocalTables(this.tables());
+      },
+      error: (err) => {
+        console.error("Error al obtener las mesas: ", err)
+        this._tables.set([]);
+      }
+    })
+  }
+
+  private loadProducts(): void {
+    this._tableManagerService.loadProducts()
+    .pipe(takeUntilDestroyed(this._destroyRef))
+    .subscribe({
+      next: (products) => this._products.set(products),
+      error: (err) => {
+        console.error("Error al cargar los productos: ", err);
+        this._products.set([]);
+      }
+    })
+
+  }
+
+  onAddProducts(table: Table) {
+    this.selectedTable = table;
+  }
+
+  onSeeOrder(order: Order){
+    this.order = order;
+  }
+
+  closeManager() {
+    this.selectedTable = null;
+  }
+
+
+  selectAndOpenMenu(table: Table): void {
+    this.selectedTable = table;
+  }
 
   openMenu(table: Table): void {
     this.selectedTable = table;
@@ -39,46 +107,16 @@ export class TablesGroupComponent implements OnInit{
     this.selectedTable = null;
   }
 
-    saveLayoutInSession(){
-    const layout = sessionStorage.getItem('tables');
-    let res;
-    if(layout){
-      res = confirm("Ya existe un layout guardado en sessionStorage. Desea sobreescribirlo?");
-    }
-    if(layout && !res) return;
-
-    sessionStorage.setItem('tables', JSON.stringify(this.tableManager.tables));
-    console.log("Layout guardado en sessionStorage");
-  }
-
-  loadLayoutFromSession(){
-    const layout = sessionStorage.getItem('tables');
-    if(layout){
-      this.tableManager.loadTables(JSON.parse(layout));
-
-      //Reseteo offsets de mesas del CDK
-      setTimeout(() => {
-        const drag = document.querySelectorAll<HTMLElement>('[cdkDrag]');
-        drag.forEach((el: HTMLElement) => {
-          el.style.transform = 'none';
-        });
-      });
-
-      console.log("Layout cargado desde sessionStorage:", this.tableManager.tables);
-    }
-  }
-
-
   addTable(): void{
 
-    const newTable: Table = {
-      id: this.tableManager.tables().length + 1,
-      name: `Mesa ${this.tableManager.tables().length + 1}`,
-      status: 'available'
-    }
+    // const newTable: Table = {
+    //   id: this._tableManagerService.tables().length + 1,
+    //   name: `Mesa ${this._tableManagerService.tables().length + 1}`,
+    //   status: 'available'
+    // }
     // this.tables.push(newTable)
 
-    this.tableManager.addTable(newTable)
+    // this._tableManagerService.addTable(newTable)
   }
 
 

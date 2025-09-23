@@ -1,36 +1,44 @@
-
-.table-element {
-    padding: 0;
-    margin: 2px;
-    /* width: 2.5rem; */
-    width: auto;
-    height: 3rem;
-    cursor: pointer;
-    color: var(--table-text-color);
-    background-color: var(--table-color);
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.table-list{
-    width: 100%;
-    height: auto;
-    max-height: 65vh;
-    overflow: hidden scroll;
-}
-
 .available {
     border: 3px solid var(--available-color);
+    background-color: var(--available-bg-color);
 }
 .occupied {
     border: 3px solid var(--occupied-color); 
+    background-color: var(--occupied-bg-color);
 }
 .reserved {
     border: 3px solid var(--reserved-color); 
+    background-color: var(--reserved-bg-color);
 }
-.custom-modal {
+
+.card-text{
+    font-size: .75rem;
+    font-weight: bold;
+}
+
+.card-container{
+    width: 13rem;
+    max-width: 25rem; 
+    height: 8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.card-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem;
+    background-color: inherit !important;
+}
+
+.btn-generic{
+    font-size: .9rem;
+    padding: .25rem;
+}
+
+/* .custom-modal {
     width: 65%;
     max-width: 85dvw;
     height: 80%;
@@ -38,4 +46,6 @@
 
 .custom-modal .modal-content {
     height: 100%;
-}
+} */
+
+

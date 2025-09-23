@@ -1,5 +1,7 @@
 export const environment = {
     production: false,
+    tokenKeyLocalStorage: 'user',
+    tableKeyLocalStorage: 'tables',
     baseUrl: 'http://localhost:8080/api/v1',
     endpoints: {
         login: '/auth/login',
@@ -11,6 +13,8 @@ export const environment = {
         employees: '/employees',
         orders: '/orders',
         orderStatus: '/order-status',
-        orderDetails: '/order-details'
+        orderDetails: '/order-details',
+        companies: '/companies'
+        
     }
 }

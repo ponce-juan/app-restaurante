@@ -4,8 +4,9 @@ export interface Product {
     description: string,
     price: number,
     stock: number,
-    category: Category;
-    subCategory: Subcategory;
+    category: Category,
+    subCategory: Subcategory,
+    company: Company
 }
 
 export interface Category {
@@ -16,4 +17,8 @@ export interface Category {
 export interface Subcategory {
     id: number,
     name: string
+}
+
+export interface Company {
+    id: number
 }

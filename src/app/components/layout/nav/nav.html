@@ -1,48 +1,20 @@
 <ul class="nav nav-underline">
-  
-  @let isLogged = isLoggedIn();
-  @if (isLogged) {
+  @if (authService.isLoggedIn()) {
     
-    <!-- @if(hasRole(['ADMIN'])) {
-      <li class="nav-item">
-        <a class="text-body-tertiary" [routerLink]="['admin']">Admin</a>
-      </li>
-    }
-    @if(hasRole(['ADMIN', 'SUPERVISOR'])){
-      <li class="nav-item">
-        <a class="text-body-tertiary" [routerLink]="['menu']" >Menu</a>
-      </li>
-    }
-
-    @if(hasRole(['ADMIN', 'SUPERVISOR', 'MOZO'])){
-      <li class="nav-item">
-        <a class="text-body-tertiary" [routerLink]="['home']">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="text-body-tertiary" [routerLink]="['tables']">Mesas</a>
-      </li>
-      <li class="nav-item">
-        <a class="text-body-tertiary" [routerLink]="['']">Principal</a>
-      </li>
-    } -->
-
     @for(item of navItems; track item.label){
       @if(hasRole(item.roles)){
         <li class="nav-item">
-          <a class="text-body-tertiary " [routerLink]="[item.route]"> {{item.label}}</a>
+          <a class="text-body-tertiary " [routerLink]="[item.route]" (click)="printRoute(item.route)"> {{item.label}}</a>
         </li>
       }  
     }
     <li class="nav-item">
       <a class="text-body-tertiary " (click)="logout()">Log out</a>
     </li>
-  }
-
-  @if (!isLogged) {
+  }@else {
     <li class="nav-item">
       <a class="text-body-tertiary " [routerLink]="['login']">Log in</a>
     </li>
 
   }
-
 </ul>

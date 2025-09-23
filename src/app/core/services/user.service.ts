@@ -7,20 +7,20 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = environment.baseUrl;
+  private apiUrl = environment.baseUrl+environment.endpoints.users;
   private http = inject(HttpClient);
   
   
   getUsers(): Observable<any> {
-    return this.http.get(`${this.apiUrl}${environment.endpoints.users}`);
+    return this.http.get(this.apiUrl);
   }
 
   getUserById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}${environment.endpoints.users}/${id}`);
+    return this.http.get(`${this.apiUrl}/${id}`);
   }
 
   getUserByUsername(username: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}${environment.endpoints.users}/${username}`);
+    return this.http.get(`${this.apiUrl}/${username}`);
   }
 
 

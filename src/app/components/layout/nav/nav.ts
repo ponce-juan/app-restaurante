@@ -15,19 +15,27 @@ export class Nav {
 
   authService = inject(AuthService);
   router = inject(Router);
-
+  
   protected navItems: NavItem[] = [
     { label: 'Admin', route: 'admin', roles: ['ADMIN'] },
     { label: 'Home', route: 'home', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
     { label: 'Menu', route: 'menu', roles: ['ADMIN', 'SUPERVISOR']},
     { label: 'Mesas', route: 'tables', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
-    { label: 'Principal', route: '', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] }
   ]; 
+
+
+  constructor() {
+    console.log("nav component loaded");
+    
+  }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
     console.log("Logged out");
+  }
+  printRoute(item: string){
+    console.log("Ruta: ", item);
   }
 
   isLoggedIn(): boolean {

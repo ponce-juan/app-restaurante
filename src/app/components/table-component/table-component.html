@@ -1,5 +1,5 @@
 <!-- Modelo de componente -->
-<div 
+<!-- <div 
     class="table-element col"
     [ngClass]="{
         'available': setTable.status === 'available',
@@ -9,69 +9,46 @@
     (click)="openMenu()"
  >
     <p class="text-center m-0 fs-6"> {{ setTable.name }} </p>
-</div>
+</div> -->
 
+<div 
+    class="card card-container" 
+    [ngClass]="{
+        'available': setTable.status === 'available',
+        'occupied': setTable.status === 'occupied',
+        'reserved': setTable.status === 'reserved',
+        }"
+    >
 
-<!-- <div
-  class="modal fade show"
-  tabindex="-1"
-  role="dialog"
-  style="display: block; background-color: rgba(0,0,0,0.6);"
->
-  <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
-    <div class="modal-content bg-dark text-light ">
-        <div class="modal-header">
-            <h5 class="modal-title">
-                {{ setTable.name }} - Estado: {{ setTable.status.toUpperCase() }} 
-            </h5>
-            <button type="button" class="btn btn-close" (click)="closeMenu()">
-            </button>
-        </div>
-        <div class="modal-body gap-2">
-            <!-- Muestro las ordenes creadas y sus productos -->
-            <!-- @if(setTable.order && setTable.order.items.length > 0){
-                <h5>Orden N°: {{setTable.order.id}}</h5> -->
-                <!-- Lista de item de la orden -->
-                <!-- <div class="table-list">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for(item of setTable.order.items; track $index){
-                                <tr>
-                                    <th scope="row">{{item.quantity}}</th>
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.price}}</td>
-                                    <td>{{item.price * item.quantity}}</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                } -->
-            <!-- <button 
-                type="button" 
-                class="btn btn-outline-info" 
-                (click)="addItem()"
-            >Agregar producto</button>
-        </div> -->
+    <div class="card-header p-0 fw-bold">
+        {{ setTable.name }}
+    </div>
+  <div class="card-body p-1 d-flex flex-column justify-content-between h-100">
+    <h6 class="card-subtitle mb-1 text-body-secondary">Status: {{ setTable.status.toUpperCase() }}</h6>
+    @if(setTable.order){
+        <p class="card-text">Order #{{ setTable.order.id }}</p>
+    }
+    
+    <div class="card-footer">
+        @if(setTable.status === 'available'){
+            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="reserveTable()">Reserve</button>
+            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
+        }
 
-        <!-- Botones para cambiar el estado de la mesa -->
-        <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-success" (click)="changeStatus('available')">Disponible</button>
-            <button type="button" class="btn btn-danger" (click)="changeStatus('occupied')">Ocupada</button>
-            <button type="button" class="btn btn-warning" (click)="changeStatus('reserved')">Reservada</button>
-            <button type="button" class="btn btn-dark" (click)="closeMenu()">Cerrar</button>
-        </div>
+        @if(setTable.status === 'occupied'){
+            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onAddProducts()">Add Products</button>
+            <!-- <button type="button" class="btn btn-outline-secondary btn-generic" (click)="addProductTable()">Add Products</button> -->
+            
+            @if(setTable.order && setTable.order.items.length > 0){
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="getOrder()">See order</button>
+            }
+            
+        }
+
+        @if(setTable.status === 'reserved'){
+            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
+            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
+        }
     </div>
   </div>
-</div> --> 
-
-
-<!-- } -->
+</div>
