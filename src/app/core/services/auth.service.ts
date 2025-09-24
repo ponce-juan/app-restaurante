@@ -12,6 +12,7 @@ export class AuthService {
   private apiUrl = environment.baseUrl+environment.endpoints.login;
   private http = inject(HttpClient);
   private tokenKey = environment.tokenKeyLocalStorage;
+  private tablesKey = environment.tableKeyLocalStorage;
 
   private _currentUser = new BehaviorSubject<string | null>(
     this.isBrowser ? localStorage.getItem(this.tokenKey) : null);
@@ -32,7 +33,7 @@ export class AuthService {
 
   logout(): void {
     if(this.isBrowser){
-      localStorage.removeItem(this.tokenKey);
+      this.clearTokens();
       this._currentUser.next(null);
       
     }
@@ -43,6 +44,11 @@ export class AuthService {
       return !!this.getToken();
     }
     return false;
+  }
+
+  clearTokens(){
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.tablesKey);
   }
 
   getToken(): string | null {

@@ -1,5 +1,5 @@
 .side-menu {
-  width: auto;
+  width: 60dvw;
   max-width: 70dvw;
   height: 100%;
   border-radius: 0.5rem;
@@ -58,21 +58,22 @@
 tbody tr {
   cursor: pointer;
 }
+tbody tr td{
+  padding: 0;
+}
 
 .edit-item-menu{
   width: 0;
-  height: 100%;
+  height: auto;
   border-radius: 0.5rem;
-  background-color: var(--gray);
   color: var(--text-dark-color);
   display: flex;
   flex-direction: column;
-  transition: right 0.5s ease-in-out;
 }
 .edit-item-menu.open {
   width: 300px;
   max-width: 40dvw;
-  max-height: 40dvh;
+  
 }
 .edit-item-menu-header,
 .edit-item-menu-footer {
@@ -82,4 +83,10 @@ tbody tr {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.btn.btn-generic{
+  margin: 0;
+  padding: 0 0.7rem ;
+  font-size: .9rem;
 }

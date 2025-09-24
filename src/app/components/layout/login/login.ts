@@ -20,17 +20,18 @@ export class Login {
                                 };
   authService = inject(AuthService);
   router = inject(Router);
+  errorMessage: string | null = null;
   
   onLogin() {
     this.authService.login(this.loginRequest).subscribe(
       {
         next: (data) => {
-          console.log("Login successful");          
+          // console.log("Login successful");   
           this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error("Login failed", error.message);
-          alert("Invalid username or password");
+          this.errorMessage="Invalid username or password";
           this.loginRequest.username = "";
           this.loginRequest.password = "";
         }

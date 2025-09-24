@@ -1,69 +1,74 @@
 <!-- Modelo de layout introduciendo mesas manualmente, en formato "grilla" -->
-<main class="d-flex flex-lg-row flex-column align-items-center gap-3">
-    <div>
-        <h2 class="title text-center">Layout de mesas</h2>
-        <div class="container text-center layout">
-            <div class="row row-cols-lg-auto row-cols-md-8 row-cols-sm-4 gap-1">
-               
-                   @for(table of tables(); track $index){
-                        @if(!this.selectedTable || selectedTable.id === table.id){
-                            <app-table-component
-                                [setTable]="table"
-                                (selectedTable)="openMenu($event)"
-                                (addProducts)="onAddProducts($event)"
-                                (seeOrder)="onSeeOrder($event)"
-                            />
-
-                        }
-                        @if(this.selectedTable && selectedTable.id === table.id){
-                            <!-- <app-table-management 
-                                [table] = "selectedTable"
-                                [isOpen] = "menuIsOpen"
-                                (backToTables)="backToTablesList()"
-                                (closeMenu) = "closeMenu()"
-                            /> -->
-
-                            <app-table-management
-                                [table]="selectedTable"
-                                [products]="products()"
-                                (close)="closeManager()"
-                            />
-                        }
-                        
-                   }
-                   <!-- TODO: Implementar logica para permitir agregar mesas siendo admin o supervisor -->
-                <!-- <div class="col p-1">
-                    <button
-                        id="add-table-button" 
-                        type="button" 
-                        class="btn btn-outline-secondary w-100 "
-                        (click)="addTable()"    
-                    >+</button>
-                </div> -->
-            </div>
-
-            <!-- <div class="row row-cols-6 g-1">
-                @for(table of tableManager.tables(); track $index){
+<div class="d-flex flex-lg-column flex-column align-items-center gap-3">
+    <h2 class="title text-center">Layout de mesas</h2>
+    <div class="container text-center layout">
+        <div class="row row-cols-lg-auto row-cols-md-8 row-cols-sm-auto gap-1">
+            @if (!errorMessage) {
+                @for(table of tables(); track $index){
+                    @if(!selectedTable() || selectedTable()?.id === table.id){
                         <app-table-component
+                            [table]="table"
+                            [selectedTable]="selectedTable"
+                            [menuTableIsOpen]="menuTableIsOpen"
+                            [showProductsInManager]="showProductsInManager"
+                            [showOrderInManager]="showOrderInManager"
+                        />
+                        <!-- <app-table-component
                             [setTable]="table"
                             (selectedTable)="openMenu($event)"
-                            >
-                        </app-table-component>
+                            (addProducts)="onAddProducts($event)"
+                            (seeOrder)="onSeeOrder($event)"
+                        /> -->
+                    }
                 }
-                <div class="col p-1">
-                    <button
-                        id="add-table-button" 
-                        type="button" 
-                        class="btn btn-outline-secondary w-100 "
-                        (click)="addTable()"    
-                    >+</button>
-                </div>
+                @if(this.menuTableIsOpen() && this.selectedTable() != null ){
+                    <app-table-management 
+                        [table] = "this.selectedTable"
+                        [isOpen] = "menuTableIsOpen"
+                        [products]="products"
+                        [showProducts]="showProductsInManager"
+                        [showOrder]="showOrderInManager"
+                    />                   
+                    <!-- @if(this.showProductsInManager() && !this.showOrderInManager()){
+                        <app-table-management 
+                            [table] = "this.selectedTable()!"
+                            [isOpen] = "menuTableIsOpen"
+                            [products]="products()"
+                            [showProducts]="showProductsInManager()"
+                            [showOrder]="showProductsInManager()"
+                        />                   
+                    }@else{
+                        <app-table-management 
+                            [table] = "this.selectedTable()!"
+                            [isOpen] = "menuTableIsOpen"
+                            [products]="products()"
+                            [showProducts]="showProductsInManager()"
+                            [showOrder]="showProductsInManager()"
+                        />                   
+                    } -->
+                }
+                <!-- @if(menuIsOpen && this.selectedTable && this.order != null){
+                    <app-table-management 
+                        [table] = "selectedTable"
+                        [isOpen] = "menuIsOpen"
+                        [products]="products()"
+                        [order] = "order"
+                        [showOrderItems]="true"
+                        (closeMenu) = "closeManager()"
+                    />                   
+                } -->
+                <!-- TODO: Implementar logica para permitir agregar mesas siendo admin o supervisor -->
+            <!-- <div class="col p-1">
+                <button
+                    id="add-table-button" 
+                    type="button" 
+                    class="btn btn-outline-secondary w-100 "
+                    (click)="addTable()"    
+                >+</button>
             </div> -->
+            }@else{
+                <h3 class="text-center">Error al cargar información.</h3>
+            }
         </div>
     </div>
-    <!-- Side panel para las mesas -->
-     @if(this.menuIsOpen && this.selectedTable){
-        <!-- Sidepanel table-menu component -->
-         
-    }
-</main>
+</div>

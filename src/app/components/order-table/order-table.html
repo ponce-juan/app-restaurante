@@ -1,1 +1,47 @@
-<p>order-table works!</p>
+<!-- Orden de la mesa -->
+@if(order && order.items.length > 0){
+    <h5>Orden N°: {{ order.id }}</h5>
+    <div class="table-list">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+            <th>Cantidad</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(item of this.order.items; track $index){
+                <tr>
+                <th scope="row">{{ item.quantity }}</th>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.price * item.quantity }}</td>
+                <td>
+                    <div class="d-flex flex-row justify-content-around">
+                        <button 
+                            type="button" 
+                            class="btn p-1"
+                            (click)="editItem(item)"
+                            >✏️</button>
+                        <button 
+                            type="button" 
+                            class="btn p-1"
+                            (click)="removeItem(item)"
+                            >✖️</button>
+                    </div>
+                </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" class="text-end fw-bold text-decoration-underline">Total: </td>
+                <td>{{ order.total }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+}
+

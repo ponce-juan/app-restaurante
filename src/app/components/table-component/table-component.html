@@ -1,51 +1,39 @@
 <!-- Modelo de componente -->
-<!-- <div 
-    class="table-element col"
-    [ngClass]="{
-        'available': setTable.status === 'available',
-        'occupied': setTable.status === 'occupied',
-        'reserved': setTable.status === 'reserved',
-    }"
-    (click)="openMenu()"
- >
-    <p class="text-center m-0 fs-6"> {{ setTable.name }} </p>
-</div> -->
-
 <div 
     class="card card-container" 
     [ngClass]="{
-        'available': setTable.status === 'available',
-        'occupied': setTable.status === 'occupied',
-        'reserved': setTable.status === 'reserved',
+        'available': this.table.status === 'available',
+        'occupied': this.table.status === 'occupied',
+        'reserved': this.table.status === 'reserved',
         }"
     >
 
     <div class="card-header p-0 fw-bold">
-        {{ setTable.name }}
+        {{ this.table.name }}
     </div>
   <div class="card-body p-1 d-flex flex-column justify-content-between h-100">
-    <h6 class="card-subtitle mb-1 text-body-secondary">Status: {{ setTable.status.toUpperCase() }}</h6>
-    @if(setTable.order){
-        <p class="card-text">Order #{{ setTable.order.id }}</p>
+    <h6 class="card-subtitle mb-1 text-body-secondary">Status: {{ this.table.status.toUpperCase() }}</h6>
+    @if(this.table.order){
+        <p class="card-text">Order #{{ this.table.order.id }}</p>
     }
     
     <div class="card-footer">
-        @if(setTable.status === 'available'){
+        @if(this.table.status === 'available'){
             <button type="button" class="btn btn-outline-secondary btn-generic" (click)="reserveTable()">Reserve</button>
             <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
         }
 
-        @if(setTable.status === 'occupied'){
+        @if(this.table.status === 'occupied'){
             <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onAddProducts()">Add Products</button>
             <!-- <button type="button" class="btn btn-outline-secondary btn-generic" (click)="addProductTable()">Add Products</button> -->
             
-            @if(setTable.order && setTable.order.items.length > 0){
-                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="getOrder()">See order</button>
+            @if(this.table.order && this.table.order.items.length > 0){
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onSeeOrder()">See order</button>
             }
             
         }
 
-        @if(setTable.status === 'reserved'){
+        @if(this.table.status === 'reserved'){
             <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
             <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
         }

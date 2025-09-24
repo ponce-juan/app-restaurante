@@ -22,16 +22,16 @@ export class TableManagerService {
   loadProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiProductsUrl);
   }
-
-  //Agrego una mesa al layout
-  addTable(table: Table): void {
-    // this._tables.update(tables => [... tables, table]);
-  }
-
+  
   loadTables(): Observable<number>{
     const companyId = this.authService.getCompanyId();
     console.log("Company ID:", companyId);
     return this.http.get<number>(`${this.apiCompaniesUrl}/${companyId}/tables`);
+  }
+
+  //Agrego una mesa al layout
+  addTable(table: Table): void {
+    // this._tables.update(tables => [... tables, table]);
   }
 
   private calculateTotalOrder(order: Order): number {
@@ -97,7 +97,7 @@ export class TableManagerService {
   }
 
   //Elimino el item de la orden de una mesa
-  removeItemFromOrder(tableId: number, item: Item): void {
+  updateOrder(tableId: number, newOrder: Order): void {
     // const table = this._tables().find(t => t.id === id);
     // if(!table || !table.order) return; //No existe mesa o no tiene orden
     
@@ -105,6 +105,18 @@ export class TableManagerService {
     // table.order.items = table.order.items.filter(i => i.name !== item.name);
     // table.order.total = this.calculateTotalOrder(table.order)
     // this._tables.update(tables => [... tables] );
+
+    //Elimino item de la orden en localstorage
+    const tables = this.getLocalTables();
+    const updatedTables = tables.map(table => {
+      if(table.id === tableId){
+        return {...table, order: newOrder};
+      }
+      return table;
+    })
+
+    //Actualizo  el localstorage
+    localStorage.setItem(this.tablesKey, JSON.stringify(updatedTables));
   }
 
   //Edito el item de la orden de una mesa
