@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../../core/services/category.service';
 import { SubcategoryService } from '../../../core/services/subcategory.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-products-management',
@@ -39,7 +38,6 @@ export class ProductsManagement implements OnInit{
     this.loadProducts();
     this.loadCategories();
     this.loadSubcategories();
-    // this.newProduct = this.createEmptyProduct();
   }
 
   //Load categories from DB
@@ -148,7 +146,7 @@ export class ProductsManagement implements OnInit{
     
     console.log(this.newProduct);
     this.showForm = true;
-    // this.toggleForm();
+
   }
 
   deleteProduct(id: number){

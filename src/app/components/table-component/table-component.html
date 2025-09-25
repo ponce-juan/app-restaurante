@@ -17,25 +17,32 @@
         <p class="card-text">Order #{{ this.table.order.id }}</p>
     }
     
-    <div class="card-footer">
-        @if(this.table.status === 'available'){
-            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="reserveTable()">Reserve</button>
-            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
-        }
-
-        @if(this.table.status === 'occupied'){
-            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onAddProducts()">Add Products</button>
-            <!-- <button type="button" class="btn btn-outline-secondary btn-generic" (click)="addProductTable()">Add Products</button> -->
-            
-            @if(this.table.order && this.table.order.items.length > 0){
-                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onSeeOrder()">See order</button>
+    <div class="card-footer gap-2 align-items-stretch">
+        @if(this.table){
+            <!-- @if(this.table.status === 'available'){ -->
+            @if(this.selectedTable()?.status === 'available' || this.table.status === 'available'){
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="reserveTable()">Reserve</button>
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
             }
-            
-        }
-
-        @if(this.table.status === 'reserved'){
-            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
-            <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
+    
+            <!-- @if(this.table.status === 'occupied'){ -->
+            @if(this.selectedTable()?.status === 'occupied' || this.table.status === 'occupied'){
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onAddProducts()">Add Products</button>
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
+                
+                <!-- @if(this.table.order && this.table.order.items.length > 0){ -->
+                @if(this.selectedTable()?.order 
+                    && this.selectedTable()?.order?.items?.length! > 0
+                    || this.table.order && this.table.order.items.length > 0){
+                    <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onSeeOrder()">See order</button>
+                }
+                
+            }
+    
+            @if(this.selectedTable()?.status === 'reserved' || this.table.status === 'reserved' ){
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
+                <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
+            }
         }
     </div>
   </div>

@@ -12,8 +12,4 @@ export class Footer {
   protected readonly year = new Date().getFullYear();
   protected readonly author = "Juan Ponce";
 
-  constructor() {
-    console.log("Footer component loaded");
-  }
-
 }

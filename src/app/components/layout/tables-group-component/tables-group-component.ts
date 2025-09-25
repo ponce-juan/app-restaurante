@@ -15,7 +15,8 @@ import { environment } from '../../../../environment/environments';
   templateUrl: './tables-group-component.html',
   styleUrl: './tables-group-component.css'
 })
-export class TablesGroupComponent implements OnInit{
+// export class TablesGroupComponent implements OnInit{
+export class TablesGroupComponent{
 
   private _destroyRef : DestroyRef = inject(DestroyRef);
   private _tableManagerService = inject(TableManagerService);
@@ -32,7 +33,12 @@ export class TablesGroupComponent implements OnInit{
   private tablesKey = environment.tableKeyLocalStorage;
   errorMessage = false;
   
-  ngOnInit(): void {
+  // ngOnInit(): void {
+  //   this.loadTables();
+  //   this.loadProducts();
+  // }
+
+  constructor() {
     this.loadTables();
     this.loadProducts();
   }

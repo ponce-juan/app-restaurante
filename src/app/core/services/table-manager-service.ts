@@ -4,8 +4,9 @@ import { environment } from '../../../environment/environments';
 import { AuthService } from './auth.service';
 import { Product } from '../../interfaces/products';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, tap } from 'rxjs';
 import { Table, Order, Item } from '../../interfaces/table';
+import { ProductsService } from './products.service';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class TableManagerService {
   
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private productService = inject(ProductsService);
   private apiCompaniesUrl = environment.baseUrl+environment.endpoints.companies;
   private apiProductsUrl = environment.baseUrl+environment.endpoints.products;
   private tablesKey = environment.tableKeyLocalStorage;
@@ -46,8 +48,7 @@ export class TableManagerService {
   }
 
   //Actualizo el estado de las mesas
-  updateTable(newTable: Table): void {
-    
+  updateTableInLocalStorage(newTable: Table): void {
     const tablesString = localStorage.getItem(this.tablesKey);
     if(tablesString){
       const tables = JSON.parse(tablesString) as Table[];
@@ -56,7 +57,7 @@ export class TableManagerService {
       if(tableIndex != -1){
         tables[tableIndex] = newTable;
         this.setLocalTables(tables);
-        console.log("se actualizo localstorage de tables");
+        // console.log("se actualizo localstorage de tables");
         return;
       }
     }
@@ -97,27 +98,44 @@ export class TableManagerService {
   }
 
   //Elimino el item de la orden de una mesa
-  updateOrder(tableId: number, newOrder: Order): void {
-    // const table = this._tables().find(t => t.id === id);
-    // if(!table || !table.order) return; //No existe mesa o no tiene orden
+  // updateOrderFromTableInLocalStorage(tableId: number, newOrder: Order): void {
+  //   // const table = this._tables().find(t => t.id === id);
+  //   // if(!table || !table.order) return; //No existe mesa o no tiene orden
     
-    // //Elimino el item de la orden
-    // table.order.items = table.order.items.filter(i => i.name !== item.name);
-    // table.order.total = this.calculateTotalOrder(table.order)
-    // this._tables.update(tables => [... tables] );
+  //   // //Elimino el item de la orden
+  //   // table.order.items = table.order.items.filter(i => i.name !== item.name);
+  //   // table.order.total = this.calculateTotalOrder(table.order)
+  //   // this._tables.update(tables => [... tables] );
 
-    //Elimino item de la orden en localstorage
-    const tables = this.getLocalTables();
-    const updatedTables = tables.map(table => {
-      if(table.id === tableId){
-        return {...table, order: newOrder};
-      }
-      return table;
-    })
+  //   //Elimino item de la orden en localstorage
+  //   const tables = this.getLocalTables();
+  //   const updatedTables = tables.map(table => {
+  //     if(table.id === tableId){
+  //       return {...table, order: newOrder};
+  //     }
+  //     return table;
+  //   })
 
-    //Actualizo  el localstorage
-    localStorage.setItem(this.tablesKey, JSON.stringify(updatedTables));
-  }
+  //   //Actualizo  el localstorage
+  //   localStorage.setItem(this.tablesKey, JSON.stringify(updatedTables));
+  // }
+
+  // updateProduct(product: Product){
+  //   if(product && product.id){
+  //     this.productService.updateProduct(product.id, product)
+  //     .pipe(
+  //       tap ( () => {
+  //           alert("Se actualizó correctamente el producto.")
+  //         }
+  //       ),
+  //       catchError ((err) => {
+  //           alert("Error al actualizar el producto.\n Intente nuevamente.")
+  //           console.log(err)
+  //           return EMPTY;
+  //       })
+  //     );
+  //   }
+  // }
 
   //Edito el item de la orden de una mesa
   editItemInOrder(id: number, item: Item, quantity: number): void {

@@ -23,12 +23,6 @@ export class Nav {
     { label: 'Mesas', route: 'tables', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
   ]; 
 
-
-  constructor() {
-    console.log("nav component loaded");
-    
-  }
-
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

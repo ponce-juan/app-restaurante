@@ -5,11 +5,14 @@
   --table-management-bg-color: #dadadac4;
   --table-text-color: #F5EFE9;
   --available-color: #4caf4fa9;
-  --available-bg-color: #90ee904d;
+  /* --available-bg-color: #90ee904d; */
+  --available-bg-color: linear-gradient(160deg,rgba(236, 236, 235, 1) 0%, rgba(144, 238, 144, .5) 100%);
   --occupied-color: #f4433698;
-  --occupied-bg-color: #f7a2a24d;
+  /* --occupied-bg-color: #f7a2a24d; */
+  --occupied-bg-color: linear-gradient(171deg,rgba(236, 236, 235, 1) 0%, rgba(244, 67, 54, .5) 100%);
   --reserved-color: #ff99009d;
-  --reserved-bg-color: #e0aa334d;
+  /* --reserved-bg-color: #e0aa334d; */
+  --reserved-bg-color: linear-gradient(160deg,rgba(236, 236, 235, 1) 0%, rgba(224, 170, 51, .5) 100%);
 
   --border-color: #838383b0;
 
