@@ -35,7 +35,7 @@ export class Nav {
     console.log("Logged out");
   }
   printRoute(item: string){
-    console.log("Ruta: ", item);
+    // console.log("Ruta: ", item);
   }
 
   isLoggedIn(): boolean {

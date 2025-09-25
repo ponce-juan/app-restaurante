@@ -35,8 +35,8 @@
                                 (click)="selectProduct(product)"
                                 [class.table-success]="product === selectedProduct">
                             <td>{{ product.name }}</td>
-                            <td>{{ product.category.name }}</td>
-                            <td>{{ product.subCategory.name }}</td>
+                            <td>{{ product.category?.name }}</td>
+                            <td>{{ product.subCategory?.name }}</td>
                             <td>{{ product.price }}</td>
                             <td>{{ product.stock }}</td>
                             </tr>

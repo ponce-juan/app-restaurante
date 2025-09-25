@@ -20,20 +20,17 @@
 
 .table-container {
     width: 700px;
-
     max-height: 70dvh;
     max-width: 90dvw;
     font-size: .9rem;
     overflow-y: auto;
 }
-
-button {
-    border: solid 1px #000;
-}
-
 /* Contenedor del carrusel */
 .carousel-wrapper {
     overflow: hidden;
+}
+.w-12{
+    width: 12%;
 }
 
 /* Contenedor interno que se mueve */

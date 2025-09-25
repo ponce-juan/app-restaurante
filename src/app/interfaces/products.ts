@@ -1,12 +1,12 @@
 export interface Product {
-    id: number,
+    id?: number,
     name: string,
     description: string,
     price: number,
     stock: number,
-    category: Category,
-    subCategory: Subcategory,
-    company: Company
+    category: Category | null,
+    subCategory: Subcategory | null,
+    company: Company | null
 }
 
 export interface Category {
