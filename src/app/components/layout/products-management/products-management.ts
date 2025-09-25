@@ -29,6 +29,7 @@ export class ProductsManagement implements OnInit{
   private authService = inject(AuthService);
   
   showForm: boolean = false;
+  isUpdateProduct: boolean = false;
   newProduct: Product = {} as Product;
   subcategoriesList!: Subcategory[];
   categoriesList!: Category[];
@@ -101,20 +102,37 @@ export class ProductsManagement implements OnInit{
     this.newProduct.company = {id: this.authService.getCompanyId()};
     
     console.log(this.newProduct);
-
-    this.productsService.addProduct(this.newProduct).subscribe({
-      next: (product) => {
+    if(this.isUpdateProduct){
+      this.productsService.updateProduct(this.newProduct.id!, this.newProduct).subscribe({
+        next: (product) => {
         // console.log('Producto agregado:', product);
         this.loadProducts(); // Recargar la lista de productos
         this.showForm = false; // Ocultar el formulario
+        this.isUpdateProduct = false;
         this.newProduct = this.createEmptyProduct(); // Resetear el formulario
-        alert("Producto agregado correctamente.");
+        alert("Producto modificado correctamente.");
       },
       error: (error) => {
-        alert("No se pudo agregar el producto.\nIntente nuevamente.")
-        console.error('Error al agregar el producto:', error);
-      }
-    });
+        alert("No se pudo modificar el producto.\nIntente nuevamente.")
+        console.error('Error al modificar el producto:', error);
+      }  
+      })
+    }else{
+      this.productsService.addProduct(this.newProduct).subscribe({
+        next: (product) => {
+          // console.log('Producto agregado:', product);
+          this.loadProducts(); // Recargar la lista de productos
+          this.showForm = false; // Ocultar el formulario
+          this.newProduct = this.createEmptyProduct(); // Resetear el formulario
+          alert("Producto agregado correctamente.");
+        },
+        error: (error) => {
+          alert("No se pudo agregar el producto.\nIntente nuevamente.")
+          console.error('Error al agregar el producto:', error);
+        }
+      });
+    }
+
   }
 
   createEmptyProduct(): Product {
@@ -146,6 +164,7 @@ export class ProductsManagement implements OnInit{
     
     console.log(this.newProduct);
     this.showForm = true;
+    this.isUpdateProduct = true;
 
   }
 
