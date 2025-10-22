@@ -20,10 +20,12 @@ export class Admin implements OnInit{
   private employeeService = inject(EmployeeService);
   newUser!: User;
   userDto!: UserDTO;
+  newEmployee!: Employee;
 
   ngOnInit(){
-    this.resetNewUser();
+    // this.resetNewUser();
     this.resetEmptyUserDto();
+    this.resetNewEmployee();
   }
 
   resetEmptyUserDto(){
@@ -31,71 +33,97 @@ export class Admin implements OnInit{
       username: '',
       password: '',
       companyId: -1,
-      employeeId: -1
+      // employeeId: -1
     }
   }
 
-  resetNewUser() {
-    this.newUser = {
-      id: undefined,
-      username: '',
-      password: '',
-      company: {
-        id: undefined,
-        name: '',
-        tables: 0
+  resetNewEmployee(){
+    this.newEmployee = {
+      role: '',
+      name: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      dni: '',
+      address: {
+        street: '',
+        number: 0,
+        city: '',
+        country: '',
+        state: ''
       },
-      employee: {
-        id: undefined,
-        role: '',
-        person: {
-          name: '',
-          lastName: '',
-          phone: '',
-          email: '',
-          dni: '',
-          address: {
-            street: '',
-            number: 0,
-            city: '',
-            state: '',
-            country: ''
-          }
-        }
+      user: { 
+        username: '',
+        password: '',
+        companyId: -1
       }
-  };
-}
+    }
+  }
+
+//   resetNewUser() {
+//     this.newUser = {
+//       id: undefined,
+//       username: '',
+//       password: '',
+//       company: {
+//         id: undefined,
+//         name: '',
+//         tables: 0
+//       },
+//       employee: {
+//         id: undefined,
+//         role: '',
+//         person: {
+//           name: '',
+//           lastName: '',
+//           phone: '',
+//           email: '',
+//           dni: '',
+//           address: {
+//             street: '',
+//             number: 0,
+//             city: '',
+//             state: '',
+//             country: ''
+//           }
+//         }
+//       }
+//   };
+// }
 
   onSubmitForm(){
     const companyId = this.authService.getCompanyId();
-    let employee = this.newUser.employee;
-    this.userDto = {
-      username: this.newUser.username,
-      password: this.newUser.password,
-      companyId: companyId,
-      employeeId: employee.id ? employee.id : 0
-    }
+    // let employee = this.newUser.employee;
+    // this.userDto = {
+    //   username: this.newUser.username,
+    //   password: this.newUser.password,
+    //   companyId: companyId,
+    //   employeeId: employee.id ? employee.id : 0
+    // }
 
-    console.log(this.newUser);
+    let employee = this.newEmployee;
+    employee.user.companyId = companyId;
+
+    console.log(employee);
 
     // try {
       // Cargo primero los datos del empleado
-      // this.employeeService.createEmployee(employee)
-      //   .subscribe({
-      //     next: (emp) => {
-      //       employee = {...employee, id: emp.id}
-      //       console.log("Empleado: ", employee);
-      //       this.userDto = {...this.userDto, employeeId: emp.id! }
-      //     },
-      //     error: (err) => {
-      //       // alert("No se pudo cargar el nuevo empleado.\nIntente nuevamente.");
-      //       // console.error("error: ", err);
-      //       throw new Error("No se pudo cargar empleado", err);
-      //     }
-      //   });
+      this.employeeService.createEmployee(employee)
+        .subscribe({
+          next: (emp) => {
+            employee = {...employee, id: emp.id}
+            console.log("Empleado cargado: ", employee);
+            // this.userDto = {...this.userDto, employeeId: emp.id! }
+          },
+          error: (err) => {
+            // alert("No se pudo cargar el nuevo empleado.\nIntente nuevamente.");
+            // console.error("error: ", err);
+            throw new Error("No se pudo cargar empleado", err);
+          }
+        });
 
       // // Cargo al nuevo usuario
-      this.userService.createUser(this.userDto)
+      /* this.userService.createUser(this.userDto)
         .subscribe({
           next: (resp) => {
             alert("Se creo el nuevo empleado satisfactoriamente.\n");
@@ -103,7 +131,7 @@ export class Admin implements OnInit{
           error: (err) =>{
             throw new Error("Error a cargar nuevo usuario. ", err);
           }
-        })
+        }) */
       
     // } catch (error) {
     //   alert("Hubo un error al cargar el nuevo empleado.\nIntente nuevamente.")
@@ -112,8 +140,8 @@ export class Admin implements OnInit{
 
     //Reseteo userDto
     this.resetEmptyUserDto();
-    //Reseteo newUser
-    this.resetNewUser();
+    //Reseteo newEmployee
+    this.resetNewEmployee();
   }
 
 

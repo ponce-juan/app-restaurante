@@ -1,14 +1,20 @@
 export interface Employee {
     id?: number;
     role: string;
-    person: Person;
+    name: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    dni: string;
+    address: Address;
+    user: UserDTO;
 }
 
 export interface User {
     id?: number;
     username: string;
     password: string;
-    employee: Employee;
+    // employee: Employee;
     company: Company;
 }
 
@@ -18,14 +24,6 @@ export interface Company {
     tables: number;
 }
 
-export interface Person {
-    name: string;
-    lastName: string;
-    phone: string;
-    email: string;
-    dni: string;
-    address: Address;
-}
 
 export interface Address {
     street: string;
@@ -39,13 +37,13 @@ export interface UserDTO{
     username: string;
     password: string;
     companyId: number;
-    employeeId: number;
+    // employeeId?: number;
 }
 
 export interface UserResponseDTO{
     id: number;
     username: string;
-    role: 'SUPERVISOR' | 'MOZO';
+    role: 'SUPERVISOR' | 'MOZO' | 'COCINERO';
     employeeId: number;
     companyId: number;
 }
