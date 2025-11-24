@@ -1,7 +1,13 @@
 <!-- Modelo de layout introduciendo mesas manualmente, en formato "grilla" -->
 <div class="d-flex flex-lg-column flex-column align-items-center gap-3">
-    <h2 class="title text-center">Layout de mesas</h2>
+    <h2 class="title text-center">New Orders</h2>
+    <div class="container d-flex text-center flex flex-row justify-content-center gap-3">
+        <button type="button" class="btn btn-success">Take away</button>
+        <button type="button" class="btn btn-success">Delivery</button>
+        <button type="button" class="btn btn-success">Dine in</button>
+    </div>
     <div class="container text-center layout">
+
         <div class="row row-cols-lg-auto row-cols-md-8 row-cols-sm-auto gap-1">
             @if (!errorMessage) {
                 @for(table of tables(); track $index){

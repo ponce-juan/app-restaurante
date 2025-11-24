@@ -43,14 +43,14 @@ export class TableComponent {
   }
 
   reserveTable(): void {
-    if(this.table.status === 'available'){
-      this.table.status = 'reserved';
+    if(this.table.status === 'AVAILABLE'){
+      this.table.status = 'RESERVED';
       this._tableManagerService.updateTableInLocalStorage(this.table);
     }
   }
   occupyTable(): void {
-    if(this.table.status === 'available' || this.table.status === 'reserved'){
-      this.table.status = 'occupied';
+    if(this.table.status === 'AVAILABLE' || this.table.status === 'RESERVED'){
+      this.table.status = 'OCCUPIED';
       this.table.order = {
         id: Date.now(),
         items: [],
@@ -65,15 +65,15 @@ export class TableComponent {
       alert("No se puede liberar, tiene productos cargados.\nDebe generar el comprobante para poder liberarla.")
       return;
     }
-    if(this.table.status !== 'available'){
-      this.table.status = 'available';
+    if(this.table.status !== 'AVAILABLE'){
+      this.table.status = 'AVAILABLE';
       this.table.order = undefined;
       this._tableManagerService.updateTableInLocalStorage(this.table);
     }
   }
   addOrder(): void {
-    if(this.table.status === 'available' || this.table.status === 'reserved'){
-      this.table.status = 'occupied';
+    if(this.table.status === 'AVAILABLE' || this.table.status === 'RESERVED'){
+      this.table.status = 'OCCUPIED';
       this.table.order = {
         id: Date.now(),
         items: [],
@@ -85,7 +85,7 @@ export class TableComponent {
   }
 
   getOrder(): void {
-    console.log(`Imprimiendo ticket de la mesa ${this.table.name}`);
+    console.log(`Imprimiendo ticket de la mesa ${this.table.number}`);
     console.log("Detalles de la orden:", this.table.order);
   }
 

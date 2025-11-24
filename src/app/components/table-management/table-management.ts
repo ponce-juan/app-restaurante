@@ -213,7 +213,7 @@ export class TableManagement{
     this.table.update(t => {
       if(!t) return t;
 
-      const newTable: Table = {...t, order:undefined , status: 'available'}
+      const newTable: Table = {...t, order:undefined , status: 'AVAILABLE'}
       
       this._tableManagerService.updateTableInLocalStorage(newTable);
       // this.onCloseMenu();
@@ -256,7 +256,7 @@ export class TableManagement{
       doc.setFontSize(16);
       //Si hay items en la orden, los imprimo. Sino imprimo mensaje
       if(this.table()!.order){
-        doc.text(`${this.table()?.name} - Orden N°: ${this.table()?.order?.id}`, 10, 10);
+        doc.text(`Mesa: ${this.table()?.number} - Orden N°: ${this.table()?.order?.id}`, 10, 10);
   
         let yOffset = 15;
         this.table()?.order?.items.forEach(item => {
@@ -273,8 +273,8 @@ export class TableManagement{
         doc.text('No hay items en la orden.', 10, 20);
       }
   
-      doc.save(`Comprobante_${this.table()?.name.replace(" ", "-")}_${this.table()?.order?.id}.pdf`);
-      console.log(`Cuenta de la mesa ${this.table()?.name} generada en PDF.`);
+      doc.save(`Comprobante_Mesa-${this.table()?.number}_${this.table()?.order?.id}.pdf`);
+      console.log(`Cuenta de la mesa ${this.table()?.number} generada en PDF.`);
   
       this.freeTable();
     }

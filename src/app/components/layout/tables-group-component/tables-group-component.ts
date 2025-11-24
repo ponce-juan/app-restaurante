@@ -56,15 +56,8 @@ export class TablesGroupComponent{
     .pipe(takeUntilDestroyed(this._destroyRef))
     .subscribe({
       next: (mesas) => {
-        const newTables: Table[] = [];
-        for(let i=1; i<=mesas; i++){
-          newTables.push({
-              id: i,
-              name: `Mesa ${i}`,
-              status: 'available'
-          });
-        }
-        this.tables.set(newTables)
+        console.log(mesas); //Mostrar mesas en consola
+        this.tables.set(mesas);
         this._tableManagerService.setLocalTables(this.tables());
       },
       error: (err) => {
@@ -128,5 +121,19 @@ export class TablesGroupComponent{
     // this._tableManagerService.addTable(newTable)
   }
 
+  public showTables(){
+    this._tableManagerService.showTables()
+    .pipe(takeUntilDestroyed(this._destroyRef))
+    .subscribe({
+      next: (tables) => {
+        console.log(tables)
+      },
+      error: (err) => {
+        console.error("Error al cargar las mesas: ", err);
+        this.errorMessage = true;
+      }
+    })
+    
+  }
 
 }

@@ -20,7 +20,8 @@ export class Nav {
     { label: 'Admin', route: 'admin', roles: ['ADMIN'] },
     { label: 'Home', route: 'home', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
     { label: 'Menu', route: 'menu', roles: ['ADMIN', 'SUPERVISOR']},
-    { label: 'Mesas', route: 'tables', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
+    { label: 'Orders', route: 'tables', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
+    // { label: 'Mesas', route: 'tables', roles: ['ADMIN', 'SUPERVISOR', 'MOZO'] },
   ]; 
 
   logout() {

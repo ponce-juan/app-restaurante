@@ -2,31 +2,32 @@
 <div 
     class="card card-container" 
     [ngClass]="{
-        'available': this.table.status === 'available',
-        'occupied': this.table.status === 'occupied',
-        'reserved': this.table.status === 'reserved',
+        'available': this.table.status === 'AVAILABLE',
+        'occupied': this.table.status === 'OCCUPIED',
+        'reserved': this.table.status === 'RESERVED',
         }"
     >
 
     <div class="card-header p-0 fw-bold">
-        {{ this.table.name }}
+        Mesa:  {{ this.table.number }}
     </div>
   <div class="card-body p-1 d-flex flex-column justify-content-between h-100">
-    <h6 class="card-subtitle mb-1 text-body-secondary">Status: {{ this.table.status.toUpperCase() }}</h6>
+    <h6 class="card-subtitle mb-1 text-body-secondary">Status: {{ this.table.status.toLowerCase() }}</h6>
+    <h6 class="card-subtitle mb-1 text-body-secondary">Seats: {{ this.table.seats }}</h6>
     @if(this.table.order){
         <p class="card-text">Order #{{ this.table.order.id }}</p>
     }
     
-    <div class="card-footer gap-2 align-items-stretch">
+    <div class="card-footer gap-1 align-items-stretch">
         @if(this.table){
-            <!-- @if(this.table.status === 'available'){ -->
-            @if(this.selectedTable()?.status === 'available' || this.table.status === 'available'){
+            <!-- @if(this.table.status === 'AVAILABLE'){ -->
+            @if(this.selectedTable()?.status === 'AVAILABLE' || this.table.status === 'AVAILABLE'){
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="reserveTable()">Reserve</button>
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
             }
     
-            <!-- @if(this.table.status === 'occupied'){ -->
-            @if(this.selectedTable()?.status === 'occupied' || this.table.status === 'occupied'){
+            <!-- @if(this.table.status === 'OCCUPIED'){ -->
+            @if(this.selectedTable()?.status === 'OCCUPIED' || this.table.status === 'OCCUPIED'){
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="onAddProducts()">Add Products</button>
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
                 
@@ -39,7 +40,7 @@
                 
             }
     
-            @if(this.selectedTable()?.status === 'reserved' || this.table.status === 'reserved' ){
+            @if(this.selectedTable()?.status === 'RESERVED' || this.table.status === 'RESERVED' ){
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="occupyTable()">Occupy</button>
                 <button type="button" class="btn btn-outline-secondary btn-generic" (click)="freeTable()">Free</button>
             }

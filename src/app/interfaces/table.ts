@@ -1,7 +1,10 @@
 export interface Table {
   id: number;
-  name: string;
-  status: 'available' | 'occupied' | 'reserved';
+  // name: string;
+  number: number;
+  seats: number;
+  status: 'AVAILABLE' | 'OCCUPIED' | 'RESERVED';
+  location: 'INDOOR' | 'OUTDOOR';
   order?: Order;
 }
 

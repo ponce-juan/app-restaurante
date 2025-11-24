@@ -19,16 +19,21 @@ export class TableManagerService {
   private productService = inject(ProductsService);
   private apiCompaniesUrl = environment.baseUrl+environment.endpoints.companies;
   private apiProductsUrl = environment.baseUrl+environment.endpoints.products;
+  private apiTablesUrl = environment.baseUrl+environment.endpoints.tables;
   private tablesKey = environment.tableKeyLocalStorage;
+
+
+  showTables(): Observable<[]>{
+    return this.http.get<[]>(this.apiTablesUrl);
+  }
 
   loadProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiProductsUrl);
   }
   
-  loadTables(): Observable<number>{
-    const companyId = this.authService.getCompanyId();
-    console.log("Company ID:", companyId);
-    return this.http.get<number>(`${this.apiCompaniesUrl}/${companyId}/tables`);
+  loadTables(): Observable<Table[]>{
+    // const companyId = this.authService.getCompanyId();
+    return this.http.get<Table[]>(`${this.apiTablesUrl}`);
   }
 
   //Agrego una mesa al layout
