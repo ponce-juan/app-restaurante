@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         canMatch: [guestGuard],
         path: 'login',
-        loadComponent: () => import('./components/layout/login/login').then(c => c.Login)
+        loadComponent: () => import('./core/layout/login/login').then(c => c.Login)
     },
     {
         canMatch: [authGuard],
@@ -20,8 +20,17 @@ export const routes: Routes = [
         data: {
             roles: ['ADMIN', 'SUPERVISOR' ,'MOZO']
         },
-        loadComponent: () => import("./components/layout/home/home").then(c => c.Home)
+        loadComponent: () => import("./core/layout/home/home").then(c => c.Home)
 
+    },
+    {
+        canMatch: [authGuard],
+        path: 'orders',
+        canActivate: [hasRoleGuard],
+        data: {
+            roles: ['ADMIN', 'SUPERVISOR' ,'MOZO']
+        },
+        loadComponent: () => import('./core/layout/orders-management/orders-management').then(c => c.OrdersManagement),
     },
     {
         canMatch: [authGuard],
@@ -30,16 +39,16 @@ export const routes: Routes = [
         data: {
             roles: ['ADMIN', 'SUPERVISOR' ,'MOZO']
         },
-        loadComponent: () => import('./components/layout/tables-group-component/tables-group-component').then(c => c.TablesGroupComponent),
+        loadComponent: () => import('./core/layout/tables-group-component/tables-group-component').then(c => c.TablesGroupComponent),
     },
     {
         canMatch: [authGuard],
-        path: 'menu',
+        path: 'stock',
         canActivate: [hasRoleGuard],
         data: {
             roles: ['ADMIN', 'SUPERVISOR']
         },
-        loadComponent: () => import('./components/layout/products-management/products-management').then(c => c.ProductsManagement),
+        loadComponent: () => import('./core/layout/products-management/products-management').then(c => c.ProductsManagement),
     },
     {
         canMatch: [authGuard],
@@ -49,7 +58,7 @@ export const routes: Routes = [
             roles: ['ADMIN']
         }
         , 
-        loadComponent: () => import('./components/layout/admin/admin').then(m => m.Admin)
+        loadComponent: () => import('./core/layout/admin/admin').then(m => m.Admin)
     },
     {
         path: '**',

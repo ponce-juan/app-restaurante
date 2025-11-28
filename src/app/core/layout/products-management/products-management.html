@@ -1,0 +1,133 @@
+@if(this.products | async; as products){
+
+    <div class="main-container">
+        <h2 class="col">Menú del Restaurante</h2>
+        <div>
+            <button type="button" class="btn btn-success" data-bs-target="#carouselExample" [attr.data-bs-slide]="showForm ? 'prev' : 'next'" (click)="toggleForm()">
+                @if(!showForm){
+                    Nuevo producto ->
+                }@else {
+                    <- Ver stock
+                }
+            </button>
+        </div>
+        <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active table-container">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <!-- <th scope="col">#</th> -->
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Subcategoría</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col" class="w-12">Precio</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(product of products; track product.id){
+                            <tr [class.table-danger]="product.stock === 0">
+                                <!-- <th>{{ product.id }}</th> -->
+                                <td>{{ product.category?.name }}</td>
+                                <td>{{ product.subCategory?.name}}</td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.description }}</td>
+                                <td class="flex-shrink-0">$ {{ product.price }}</td>
+                                <td>
+                                    <span  class="fw-bold"
+                                            [class.text-success]="product.stock > 0"
+                                            [class.text-danger]="product.stock === 0">
+                                        {{ product.stock }}
+                                    </span>
+                                </td>
+                                <td class="d-flex flex-column align-items-center gap-1">
+                                    <button 
+                                        class="btn btn-sm btn-outline-primary w-100" 
+                                        data-bs-target="#carouselExample"
+                                        [attr.data-bs-slide]="showForm ? 'prev' : 'next'"
+                                        (click)="updateProduct(product)">✏️</button>
+                                    <button class="btn btn-sm btn-outline-danger w-100" (click)="deleteProduct(product.id!)">❌</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="carousel-item">
+                <div class="form-container mx-auto">
+                    <div class="d-block w-100 p-3 mb-3">
+                        <form (ngSubmit)="submitForm()" #productForm="ngForm">
+                            <div class="input-group mb-3 justify-content-between">
+                               <div>
+                                   <label for="name" class="form-label">Nombre</label>
+                                   <input type="text" id="name" class="form-control" [(ngModel)]="newProduct.name" name="name" required="true">
+                               </div>
+                               <div>
+                                   <label for="category" class="form-label">Categoría</label>
+                                   <select id="category" class="form-select" [(ngModel)]="newProduct.category" name="category">
+                                       @if(this.categoriesList){
+                                           @for(cat of categoriesList; track cat.id){
+                                               <option [ngValue]="cat"
+                                                    >{{ cat.name }}</option>
+                                           }
+                                       }
+                                   </select>
+                               </div>
+
+                               <div>
+                                   <label for="subcategory" class="form-label">Subcategoría</label>
+                                   <select id="subcategory" class="form-select" [(ngModel)]="newProduct.subCategory" name="subcategory">
+                                       @if(this.subcategoriesList){
+                                           @for(sub of subcategoriesList; track sub.id){
+                                               <option [ngValue]="sub">{{ sub.name }}</option>
+                                           }
+                                       }
+                                   </select>
+                               </div>
+                            </div>
+                                                
+                            <div class="input-group mb-3 justify-content-between">
+                                <div class="">
+                                    <label for="price" class="form-label">Precio</label>
+                                    <input type="number" id="price" class="form-control" [(ngModel)]="newProduct.price" name="price" step="0.01" required="true">
+                                </div>
+
+                                <div class="">
+                                    <label for="stock" class="form-label">Stock</label>
+                                    <input type="number" id="stock" class="form-control" [(ngModel)]="newProduct.stock" name="stock" required="true">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Descripción</label>
+                                <textarea 
+                                    id="description" class="form-control" [(ngModel)]="newProduct.description"   name="description" required="true"
+                                    rows="2"
+                                    placeholder="Ingrese la descripción del producto.">
+                                </textarea>
+                            </div>
+                                                    
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button type="button" 
+                            class="btn btn-secondary ms-2" 
+                            data-bs-target="#carouselExample"
+                            [attr.data-bs-slide]="showForm ? 'prev' : 'next'"
+                            (click)="toggleForm()">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        </div>
+    </div>   
+}
+
+@if(errorMsg){
+    <h2>No tienes permisos de acceso.</h2>
+}
+
+

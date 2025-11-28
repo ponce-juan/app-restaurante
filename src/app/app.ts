@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterOutlet, Routes } from '@angular/router';
-import { Nav } from './components/layout/nav/nav';
-import { Footer } from './components/layout/footer/footer';
-import { AuthService } from './core/services/auth.service';
+import { Nav } from '@layout/nav/nav';
+import { Footer } from '@layout/footer/footer';
+import { AuthService } from '@services/auth.service';
 
 
 @Component({

@@ -1,12 +1,13 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environments';
-import { AuthService } from './auth.service';
-import { Product } from '../../interfaces/products';
+import { environment } from '@environment/environments';
+import { AuthService } from '@services/auth.service';
+import { Product } from '@models/products.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
-import { Table, Order, Item } from '../../interfaces/table';
-import { ProductsService } from './products.service';
+import { Table, Order, Item } from '@models/table.model';
+import { ProductService } from '@services/product.service';
+import { TableService } from '@services/table.service';
 
 
 @Injectable({
@@ -14,33 +15,15 @@ import { ProductsService } from './products.service';
 })
 export class TableManagerService {
   
-  private http = inject(HttpClient);
+  // private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private productService = inject(ProductsService);
-  private apiCompaniesUrl = environment.baseUrl+environment.endpoints.companies;
-  private apiProductsUrl = environment.baseUrl+environment.endpoints.products;
-  private apiTablesUrl = environment.baseUrl+environment.endpoints.tables;
+  private productService = inject(ProductService);
+  private tableService = inject(TableService);
   private tablesKey = environment.tableKeyLocalStorage;
 
 
-  showTables(): Observable<[]>{
-    return this.http.get<[]>(this.apiTablesUrl);
-  }
 
-  loadProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiProductsUrl);
-  }
   
-  loadTables(): Observable<Table[]>{
-    // const companyId = this.authService.getCompanyId();
-    return this.http.get<Table[]>(`${this.apiTablesUrl}`);
-  }
-
-  //Agrego una mesa al layout
-  addTable(table: Table): void {
-    // this._tables.update(tables => [... tables, table]);
-  }
-
   private calculateTotalOrder(order: Order): number {
     return order.items.reduce((total, actual) => total + (actual.price * actual.quantity), 0);
   }

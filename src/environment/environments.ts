@@ -13,6 +13,7 @@ export const environment = {
         products: '/products',
         employees: '/employees',
         orders: '/orders',
+        orderTypes: '/order-types',
         orderStatus: '/order-status',
         orderDetails: '/order-details',
         companies: '/companies',

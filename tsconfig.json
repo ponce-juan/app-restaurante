@@ -3,6 +3,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@core/*": ["app/core/*"],
+      "@shared/*": ["app/shared/*"],
+      "@features/*": ["app/features/*"],
+      "@models/*": ["app/core/models/*"],
+      "@services/*": ["app/core/services/*"],
+      "@pages/*": ["app/pages/*"],
+      "@environment/*": ["environment/*"],
+      "@guards/*": ["app/core/guards/*"],
+      "@interceptors/*": ["app/core/interceptors/*"],
+      "@components/*": ["app/shared/components/*"],
+      "@layout/*": ["app/core/layout/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
