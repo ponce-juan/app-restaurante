@@ -1,0 +1,17 @@
+<div class="table-card" [ngClass]="table.status.toLowerCase()">
+  <div class="table-card-header">
+    <h5>Mesa {{ table.number }}</h5>
+    <h6>{{ table.status }}</h6>
+  </div>
+
+  <div class="table-card-body">
+    <p><strong>Asientos:</strong> {{ table.seats }}</p>
+    <p><strong>Ubicacion:</strong> {{table.location}}</p>
+  </div>
+
+  <div class="table-card-footer">
+    <button class="btn-primary" (click)="editTable(table)">Editar</button>
+    <button class="btn-danger" (click)="deleteTable(table.number)">Eliminar</button>
+  </div>
+</div>
+

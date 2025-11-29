@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         canMatch: [guestGuard],
         path: 'login',
-        loadComponent: () => import('./core/layout/login/login').then(c => c.Login)
+        loadComponent: () => import('@layout/login/login').then(c => c.Login)
     },
     {
         canMatch: [authGuard],
@@ -56,9 +56,17 @@ export const routes: Routes = [
         canActivate: [hasRoleGuard],
         data: {
             roles: ['ADMIN']
-        }
-        , 
+        }, 
         loadComponent: () => import('./core/layout/admin/admin').then(m => m.Admin)
+    },
+    {
+        canMatch: [authGuard],
+        path: 'table-form/:id',
+        canActivate: [hasRoleGuard],
+        data: {
+            roles: ['ADMIN', 'SUPERVISOR']
+        },
+        loadComponent: () => import('@components/table-form/table-form').then(c => c.TableForm)
     },
     {
         path: '**',

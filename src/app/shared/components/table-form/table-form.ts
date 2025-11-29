@@ -1,8 +1,11 @@
-import { Component, inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TableService } from '@services/table.service';
 import { Table } from '@models/table.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { TableStoreService } from '@core/services/table-store.service';
+import {Location} from '@angular/common'
 
 @Component({
   selector: 'app-table-form',
@@ -11,12 +14,25 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   templateUrl: './table-form.html',
   styleUrl: './table-form.css'
 })
-export class TableForm {
+export class TableForm implements OnInit{
 
   private _fb = inject(FormBuilder);
   private _tableService = inject(TableService);
+  private route = inject(ActivatedRoute);
+  private _tableStore = inject(TableStoreService);
+  private location = inject(Location);
 
   @Output() cancel = new EventEmitter<void>();
+
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if(id){
+      const table = this._tableStore.tables().find(t => t.id === id);
+      if(table){
+        this.tableForm.patchValue(table);
+      }
+    }
+  }
 
   //Forma de formulario 
   tableId?: number;
@@ -65,7 +81,8 @@ export class TableForm {
 
   //Cancelar formulario
   onCancel() {
-    this.cancel.emit();
+    // this.cancel.emit();
+    this.location.back();
   } 
   
   

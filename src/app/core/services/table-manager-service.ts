@@ -21,9 +21,6 @@ export class TableManagerService {
   private tableService = inject(TableService);
   private tablesKey = environment.tableKeyLocalStorage;
 
-
-
-  
   private calculateTotalOrder(order: Order): number {
     return order.items.reduce((total, actual) => total + (actual.price * actual.quantity), 0);
   }

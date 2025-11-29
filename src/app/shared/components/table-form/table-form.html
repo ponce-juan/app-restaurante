@@ -1,0 +1,70 @@
+<form [formGroup]="tableForm" class="container mt-3">
+
+  <div class="row g-3">
+
+    <!-- Número de mesa -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">Número de mesa</label>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Ej: 12"
+        formControlName="number"
+      />
+    </div>
+
+    <!-- Cantidad de asientos -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">Asientos</label>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Ej: 4"
+        formControlName="seats"
+      />
+    </div>
+
+    <!-- Estado -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">Estado</label>
+      <select class="form-select" formControlName="status">
+        <option value="AVAILABLE">Disponible</option>
+        <option value="OCCUPIED">Ocupada</option>
+        <option value="RESERVED">Reservada</option>
+      </select>
+    </div>
+
+    <!-- Ubicación -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">Ubicación</label>
+      <select class="form-select" formControlName="location">
+        <option value="INDOOR">Interior</option>
+        <option value="OUTDOOR">Exterior</option>
+      </select>
+    </div>
+
+    <!-- Orden (solo mostrar si existe) -->
+     <!-- @if(tableForm.value.order){
+
+         <div class="col-12" *ngIf="tableForm.value.order">
+           <label class="form-label">Orden asociada</label>
+           <div class="alert alert-info p-2">
+             Orden ID: {{ tableForm.value.order?.id }}  
+           </div>
+         </div>
+     } -->
+
+    <!-- Botones -->
+    <div class="col-12 mt-3 d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancelar
+      </button>
+
+      <button type="submit" class="btn btn-primary" [disabled]="tableForm.invalid">
+        Guardar
+      </button>
+    </div>
+
+  </div>
+
+</form>

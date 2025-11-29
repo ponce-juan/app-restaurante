@@ -3,6 +3,8 @@ import { Component, Input, inject, WritableSignal } from '@angular/core';
 import { Table } from '@models/table.model';
 import { TableManagerService } from '@services/table-manager-service';
 import { OrderType } from '@models/order.types.model';
+import { TableStoreService } from '@core/services/table-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-component',
@@ -14,33 +16,49 @@ import { OrderType } from '@models/order.types.model';
 export class TableComponent {
   
   private _tableManagerService = inject(TableManagerService);
+  private _tableStore = inject(TableStoreService)
+  private router = inject(Router);
 
   @Input({required: true}) table!: Table;
-  @Input({required: true}) selectedTable!: WritableSignal<Table | null>;
-  @Input({required: true}) menuTableIsOpen!: WritableSignal<boolean>;
-  @Input({required: true}) showProductsInManager!: WritableSignal<boolean>;
-  @Input({required: true}) showOrderInManager!: WritableSignal<boolean>;
+  // @Input({required: true}) selectedTable!: WritableSignal<Table | null>;
+  // @Input({required: true}) menuTableIsOpen!: WritableSignal<boolean>;
+  // @Input({required: true}) showProductsInManager!: WritableSignal<boolean>;
+  // @Input({required: true}) showOrderInManager!: WritableSignal<boolean>;
 
   
-  private selectTableAndOpenMenu(){
-    if(this.table && this.table.order){
-      this.selectedTable.set({
-        ...this.table,
-        order: this.table.order,
-        status: this.table.status
-      });
-      this.menuTableIsOpen.set(true);
-    }
+  // private selectTableAndOpenMenu(){
+  //   if(this.table && this.table.order){
+  //     this.selectedTable.set({
+  //       ...this.table,
+  //       order: this.table.order,
+  //       status: this.table.status
+  //     });
+  //     this.menuTableIsOpen.set(true);
+  //   }
+  // }
+  // onAddProducts(){
+  //   this.selectTableAndOpenMenu();
+  //   this.showProductsInManager.set(true);
+  //   this.showOrderInManager.set(false);
+  // }
+  // onSeeOrder(){
+  //   this.selectTableAndOpenMenu();
+  //   this.showOrderInManager.set(true);
+  //   this.showProductsInManager.set(false);
+  // }
+
+  editTable(table: Table){
+    console.log("id", table)
+    this.router.navigate(['/table-form', table.id]);
   }
-  onAddProducts(){
-    this.selectTableAndOpenMenu();
-    this.showProductsInManager.set(true);
-    this.showOrderInManager.set(false);
-  }
-  onSeeOrder(){
-    this.selectTableAndOpenMenu();
-    this.showOrderInManager.set(true);
-    this.showProductsInManager.set(false);
+  deleteTable(tableNumber: number){
+    console.log("mesa n: " + tableNumber);
+    this._tableStore.deleteTableInDb(tableNumber).subscribe(
+      {
+        next: () => {alert("Mesa eliminada satisfactoriamente")},
+        error: (err) => {alert(err.error.message)}
+      }
+    );
   }
 
   reserveTable(): void {

@@ -1,0 +1,54 @@
+.table-card {
+  width: 200px;
+  border-radius: 12px;
+  padding: 15px;
+  cursor:pointer;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.table-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+      0 6px 12px rgba(0,0,0,0.10),
+      0 10px 20px rgba(0,0,0,0.08);
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.available { background: var(--available-bg-color); }   /* Mesa libre */
+.occupied { background: var(--occupied-bg-color); }   /* Mesa ocupada */
+.reserved { background: var(--reserved-bg-color); } /* Reservada */
+
+.table-card-body {
+  margin-top: 12px;
+  font-size: 0.95rem;
+}
+
+.table-card-footer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-primary, .btn-danger {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  color: #fdf2f2;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #3498db;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+}
