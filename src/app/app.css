@@ -10,8 +10,8 @@ main {
 header {
   text-align: center;
   height: 2.5rem;
-  /* background-color: #f0f0f0; */
-  color: var(--text-dark-color);
+  background-color: var(--header-bg-color);
+  color: var(--text-light-color);
   display: flex;
   position: fixed;
   top: 0;
@@ -24,7 +24,8 @@ header {
 footer {
   text-align: center;
   height: 2.5rem;
-  color: var(--text-dark-color);
+  background-color: var(--footer-bg-color);
+  color: var(--text-light-color);
   display: flex;
   position: fixed;
   bottom: 0;

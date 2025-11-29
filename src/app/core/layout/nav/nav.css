@@ -2,3 +2,12 @@ a {
     cursor: pointer;
     text-decoration: none;
 }
+.text-light-color{
+    color: var(--text-light-color);
+}
+
+a:hover{
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}

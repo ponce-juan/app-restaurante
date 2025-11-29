@@ -5,19 +5,19 @@
   --table-management-bg-color: #dadadac4;
   --table-text-color: #F5EFE9;
   --available-color: #4caf4fa9;
-  /* --available-bg-color: #90ee904d; */
   --available-bg-color: linear-gradient(135deg, rgba(180, 240, 200, 0.85) 0%, rgba(70, 200, 120, 0.9) 100%);
   --occupied-color: #f4433698;
-  /* --occupied-bg-color: #f7a2a24d; */
   --occupied-bg-color: linear-gradient(135deg, rgba(255, 190, 190, 0.85) 0%, rgba(230, 70, 70, 0.9) 100%);
   --reserved-color: #ff99009d;
-  /* --reserved-bg-color: #e0aa334d; */
   --reserved-bg-color: linear-gradient(135deg, rgba(255, 220, 180, 0.85) 0%, rgba(255, 160, 70, 0.9) 100%);
 
   --border-color: #838383b0;
 
   --text-dark-color: #333;
   --text-light-color: #F5EFE9;
+  
+  --header-bg-color: #294b32;
+  --footer-bg-color: #223126;
 }
 * {
   margin: 0;

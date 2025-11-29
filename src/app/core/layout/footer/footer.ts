@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
 })
 export class Footer {
   protected readonly year = new Date().getFullYear();
-  protected readonly author = "Juan Ponce";
+  protected readonly author = "Ponce Juan | Martin Pavan";
 
 }

@@ -51,9 +51,14 @@ export class TableComponent {
     // console.log("id from table-component", table)
     this.router.navigate(['/table-form', table.id]);
   }
-  deleteTable(tableNumber: number){
-    console.log("mesa n: " + tableNumber);
-    this._tableStore.deleteTableInDb(tableNumber).subscribe(
+  deleteTable(table: Table){
+    console.log("mesa n: " + table.number);
+    if(table.order || table.status === 'OCCUPIED'){
+      alert("La mesa no se puede eliminar porque tiene una orden asignada.");
+      return;
+    }
+
+    this._tableStore.deleteTableInDb(table.number).subscribe(
       {
         next: () => {alert("Mesa eliminada satisfactoriamente")},
         error: (err) => {alert(err.error.message)}

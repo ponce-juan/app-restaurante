@@ -1,3 +1,6 @@
 .navbar{
     height: 2.5rem;
 }
+.navbar p {
+    color: var(--text-light-color);
+}

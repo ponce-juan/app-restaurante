@@ -16,7 +16,7 @@ export class TableStoreService {
   //Carga de mesas desde BD
   loadTables(){
     return this.tableService.getTables().pipe(
-        tap(tables => this._tables.set(tables))
+        tap(tables => this._tables.set([...tables].sort((a,b) => a.number - b.number)))
       )
   }
 
@@ -24,7 +24,9 @@ export class TableStoreService {
   updateTableInDb(table: Table){
     return this.tableService.updateTable(table, table.id!!).pipe(
       tap(updated => {
-        this._tables.update(prev => prev.map(t => t.id === updated.id ? updated : t));
+        this._tables.update(prev => prev
+                                    .map(t => t.id === updated.id ? updated : t)
+                                    .sort((a,b) => a.number - b.number));
       })
     );
   }
@@ -33,7 +35,7 @@ export class TableStoreService {
   addTableInDb(table: Table){
     return this.tableService.addTable(table).pipe(
       tap(created => {
-        this._tables.update(prev => [...prev, created]);
+        this._tables.update(prev => [...prev, created].sort((a,b) => a.number - b.number));
       })
     )
   }
@@ -41,7 +43,9 @@ export class TableStoreService {
   deleteTableInDb(tableNumber: number){
     return this.tableService.deleteTable(tableNumber).pipe(
       tap(() => {
-        this._tables.update(prev => prev.filter(t => t.number !== tableNumber))
+        this._tables.update(prev => prev
+                                    .filter(t => t.number !== tableNumber)
+                                    .sort((a,b) => a.number - b.number))
       })
     )
   }
