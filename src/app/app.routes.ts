@@ -69,6 +69,15 @@ export const routes: Routes = [
         loadComponent: () => import('@components/table-form/table-form').then(c => c.TableForm)
     },
     {
+        canMatch: [authGuard],
+        path: 'table-form',
+        canActivate: [hasRoleGuard],
+        data: {
+            roles: ['ADMIN', 'SUPERVISOR']
+        },
+        loadComponent: () => import('@components/table-form/table-form').then(c => c.TableForm)
+    },
+    {
         path: '**',
         redirectTo: 'login'
     }

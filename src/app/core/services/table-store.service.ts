@@ -22,7 +22,7 @@ export class TableStoreService {
 
   //Actualizar una mesa de DB y del estado
   updateTableInDb(table: Table){
-    return this.tableService.updateTable(table, table.number).pipe(
+    return this.tableService.updateTable(table, table.id!!).pipe(
       tap(updated => {
         this._tables.update(prev => prev.map(t => t.id === updated.id ? updated : t));
       })

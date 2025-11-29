@@ -48,7 +48,7 @@ export class TableComponent {
   // }
 
   editTable(table: Table){
-    console.log("id", table)
+    // console.log("id from table-component", table)
     this.router.navigate(['/table-form', table.id]);
   }
   deleteTable(tableNumber: number){

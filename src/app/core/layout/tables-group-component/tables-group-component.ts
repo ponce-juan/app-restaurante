@@ -12,12 +12,14 @@ import { TableService } from '@services/table.service';
 import { ProductService } from '@services/product.service';
 import { TableForm } from '@components/table-form/table-form';
 import { TableStoreService } from '@core/services/table-store.service';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-tables-group-component',
   standalone: true,
-  imports: [TableComponent, TableManagement, TableForm],
+  // imports: [TableComponent, TableManagement, TableForm],
+  imports: [TableComponent],
   templateUrl: './tables-group-component.html',
   styleUrl: './tables-group-component.css'
 })
@@ -25,6 +27,7 @@ import { TableStoreService } from '@core/services/table-store.service';
 export class TablesGroupComponent implements OnInit{
 
   tableStore = inject(TableStoreService);
+  private route = inject(Router);
 
   loading = signal(true)
   error = signal<string |null>(null);
@@ -47,6 +50,10 @@ export class TablesGroupComponent implements OnInit{
         this.loading.set(false);
       }
     })
+  }
+
+  addTable(){
+    this.route.navigate(['/table-form'])
   }
 
 

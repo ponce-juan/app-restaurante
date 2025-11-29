@@ -23,9 +23,12 @@ export class TableService {
   }
 
   //Actualizo una mesa de la compania
-  updateTable(newTable: Table, tableNumber: number): Observable<Table>{
-    return this.http.put<Table>(`${this.apiTablesUrl}/${tableNumber}`, newTable);
+  updateTable(newTable: Table, tableID: number): Observable<Table>{
+    return this.http.put<Table>(`${this.apiTablesUrl}/${tableID}`, newTable);
   }
+  // updateTable(newTable: Table, tableNumber: number): Observable<Table>{
+  //   return this.http.put<Table>(`${this.apiTablesUrl}/${tableNumber}`, newTable);
+  // }
 
   //Agrego una mesa a la compania
   addTable(newTable: Table): Observable<Table> {

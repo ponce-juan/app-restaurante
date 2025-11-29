@@ -11,6 +11,10 @@
         placeholder="Ej: 12"
         formControlName="number"
       />
+      @if(tableForm.get('number')?.touched &&
+       (tableForm.get('number')?.hasError('min'))){
+        <p class="text-danger">{{getFormErrorMessage('number')}}</p>
+      }
     </div>
 
     <!-- Cantidad de asientos -->
@@ -22,6 +26,10 @@
         placeholder="Ej: 4"
         formControlName="seats"
       />
+      @if(tableForm.get('seats')?.touched && 
+        (tableForm.get('seats')?.hasError('min') || tableForm.get('seats')?.hasError('max'))){
+        <p class="text-danger">{{getFormErrorMessage('seats')}}</p>
+      }
     </div>
 
     <!-- Estado -->
@@ -41,6 +49,7 @@
         <option value="INDOOR">Interior</option>
         <option value="OUTDOOR">Exterior</option>
       </select>
+      
     </div>
 
     <!-- Orden (solo mostrar si existe) -->
@@ -53,14 +62,18 @@
            </div>
          </div>
      } -->
-
+    @if(tableForm.invalid){
+      <div class="col-12 mt-3 d-flex justify-content-center gap-2">
+        <p></p>
+      </div>
+    }
     <!-- Botones -->
     <div class="col-12 mt-3 d-flex justify-content-end gap-2">
       <button type="button" class="btn btn-secondary" (click)="onCancel()">
         Cancelar
       </button>
 
-      <button type="submit" class="btn btn-primary" [disabled]="tableForm.invalid">
+      <button type="submit" class="btn btn-primary" (click)="save()" [disabled]="tableForm.invalid">
         Guardar
       </button>
     </div>
