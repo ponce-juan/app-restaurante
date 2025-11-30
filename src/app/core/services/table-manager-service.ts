@@ -5,9 +5,10 @@ import { AuthService } from '@services/auth.service';
 import { Product } from '@models/products.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
-import { Table, Order, Item } from '@models/table.model';
+import { Table} from '@models/table.model';
 import { ProductService } from '@services/product.service';
 import { TableService } from '@services/table.service';
+import { Item, Order } from '@core/models/order.model';
 
 
 @Injectable({

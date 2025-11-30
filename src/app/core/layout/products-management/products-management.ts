@@ -47,7 +47,8 @@ export class ProductsManagement implements OnInit{
     .pipe(
       tap( cat => {
         if(cat && cat.length > 0){
-          this.newProduct.subCategory = cat[0];
+          this.newProduct.category = cat[0].name;
+          // this.newProduct.Category = cat[0];
         }
       }),
       catchError ((error:string) => {
@@ -66,7 +67,8 @@ export class ProductsManagement implements OnInit{
     .pipe(
       tap( subcategories => {
         if(subcategories && subcategories.length > 0){
-          this.newProduct.subCategory = subcategories[0];
+          this.newProduct.subCategory = subcategories[0].name;
+          // this.newProduct.subCategory = subcategories[0];
         }
       }),
       catchError ((error:string) => {
@@ -99,7 +101,9 @@ export class ProductsManagement implements OnInit{
   }
 
   submitForm() {
-    this.newProduct.company = {id: this.authService.getCompanyId()};
+    
+    //*TODO* -- Verificar en backend si necesito esta información
+    // this.newProduct.company = {id: this.authService.getCompanyId()};
     
     console.log(this.newProduct);
     if(this.isUpdateProduct){
@@ -138,12 +142,19 @@ export class ProductsManagement implements OnInit{
   createEmptyProduct(): Product {
     return {
       name: "",
-      category: this.categoriesList[0],
-      subCategory: this.subcategoriesList[0],
+      category: this.categoriesList[0].name,
+      subCategory: this.subcategoriesList[0].name,
       price: 0,
       stock: 0,
       description: "",
-      company: null
+      // company: null
+      // name: "",
+      // category: this.categoriesList[0],
+      // subCategory: this.subcategoriesList[0],
+      // price: 0,
+      // stock: 0,
+      // description: "",
+      // // company: null
     }
   }
 
@@ -152,14 +163,27 @@ export class ProductsManagement implements OnInit{
     
     //Asigno la categoria que ya pertenece al producto
     if(this.categoriesList && prod.category){
-      const match = this.categoriesList.find(cat => cat.id === prod.category?.id)
-      if(match) this.newProduct.category = match;
+      const cat = this.categoriesList.find(cat => cat.name === prod.category)
+      // const match = this.categoriesList.find(cat => cat.id === prod.category?.id)
+      if(cat) {
+        this.newProduct.category = cat.name;
+      }
+      // if(match) {
+      //   this.newProduct.category = match;
+      // }
+        
     }
     
     //Asigno la subcategoria que ya pertenece al producto
     if(this.subcategoriesList && prod.subCategory){
-      const match = this.subcategoriesList.find(sub => sub.id === prod.subCategory?.id);
-      if(match) this.newProduct.subCategory = match;
+      const subcat = this.subcategoriesList.find(sub => sub.name === prod.subCategory);
+      if(subcat) {
+        this.newProduct.subCategory = subcat.name;
+      }
+      // const match = this.subcategoriesList.find(sub => sub.id === prod.subCategory?.id);
+      // if(match) {
+      //   this.newProduct.subCategory = match;
+      // }
     }
     
     console.log(this.newProduct);

@@ -12,7 +12,7 @@ export class ProductService {
   private apiUrl = environment.baseUrl+environment.endpoints.products;
   private _http = inject(HttpClient);
   private _products = signal<Product[]>([]);
-  public products = computed(() => this._products);
+  public products = computed(() => this._products());
 
   //Cargo los productos desde la base de datos
   loadProducts(): Observable<Product[]>{

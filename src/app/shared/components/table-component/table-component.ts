@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, Input, inject, WritableSignal } from '@angular/core';
 import { Table } from '@models/table.model';
 import { TableManagerService } from '@services/table-manager-service';
-import { OrderType } from '@models/order.types.model';
+import { OrderType } from '@core/models/order.model';
 import { TableStoreService } from '@core/services/table-store.service';
 import { Router } from '@angular/router';
 

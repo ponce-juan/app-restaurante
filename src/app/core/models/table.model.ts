@@ -1,4 +1,4 @@
-import { OrderType } from "./order.types.model";
+import { Order } from "./order.model";
 
 export interface Table {
   id?: number;
@@ -7,17 +7,4 @@ export interface Table {
   status: 'AVAILABLE' | 'OCCUPIED' | 'RESERVED';
   location: 'INDOOR' | 'OUTDOOR';
   order?: Order;
-}
-
-export interface Order {
-  id: number;
-  client?: string;
-  type: OrderType;
-  items: Item[];
-  total: number;
-}
-export interface Item {
-  name: string;
-  quantity: number;
-  price: number;
 }

@@ -2,11 +2,11 @@ import { Component, computed, EventEmitter, inject, Input, NgModule, OnInit, Out
 import { TableManagerService } from '@services/table-manager-service';
 import jsPDF from 'jspdf';
 import { Product } from '@models/products.model';
-import { Table, Item, Order } from '@models/table.model';
+import { Table} from '@models/table.model';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '@services/product.service';
 import { catchError, EMPTY, tap } from 'rxjs';
-import { OrderType } from '@models/order.types.model';
+import { Item, Order, OrderType } from '@core/models/order.model';
 
 
 @Component({
@@ -36,8 +36,8 @@ export class TableManagement{
     const text = this.searchText().toLowerCase();
     return this.products().filter(
       p => p.name.toLowerCase().includes(text) ||
-      p.category?.name?.toLowerCase().includes(text) ||
-      p.subCategory?.name?.toLowerCase().includes(text)
+      p.category?.toLowerCase().includes(text) ||
+      p.subCategory?.toLowerCase().includes(text)
     );
   })
  
