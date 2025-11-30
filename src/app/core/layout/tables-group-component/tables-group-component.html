@@ -1,10 +1,19 @@
 <!-- Modelo de layout introduciendo mesas -->
-<main class="d-flex flex-column align-items-center mt-5 gap-2">
+<main class="d-flex flex-column align-items-center mt-2 gap-2">
     <h2>Tables management</h2>
-    <button 
-    type="button" class="btn btn-success"
-    (click)="addTable()">Add table
-    </button>
+    <div class="d-flex flex-row gap-2">
+        <button type="button" class="btn btn-success" (click)="addTable()"
+                >Registrar mesa
+        </button>
+        <button
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteTableModal"
+            >
+            Eliminar mesa
+        </button>
+
+    </div>
 
     <div class="d-flex flex-lg-column flex-column align-items-center gap-3">
         <h3>All tables</h3>
@@ -95,3 +104,57 @@
         </div>
     </div>
 </main>
+
+<!-- MODAL DELETE TABLE-->
+<div
+  class="modal fade"
+  id="deleteTableModal"
+  tabindex="-1"
+  aria-labelledby="deleteTableLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteTableLabel">Eliminar mesa</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">Número de la mesa:</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="tableNumberToDelete"
+          placeholder="Ej: 12"
+        />
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete()"
+          data-bs-dismiss="modal"
+        >
+          Eliminar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -20,7 +20,7 @@ export class TableForm implements OnInit{
   private route = inject(ActivatedRoute);
   private _tableStore = inject(TableStoreService);
   private location = inject(Location);
-  private tableID: number = 0;
+  public tableID: number = 0;
 
   errorMsg = signal<string>("");
 
@@ -82,20 +82,25 @@ export class TableForm implements OnInit{
   //Guardar cambios del formulario
   save() {
   const data: Table = this.tableForm.value as Table;
-  if(this.tableID)
-    data.id = this.tableID;
-
-  // console.log("Mesa on save: ", data)
+    // console.log("Mesa on save: ", data)
   // console.log("table ID: ", this.tableID);
 
-  if (this.tableID) {
+  if (this.tableID !== 0) {
     // EDITAR
+    data.id = this.tableID;
+    console.log(data); // Tengo toda la información de la mesa CON ACTUALIZACIONES
+    //ID unico de la mesa relacionado con la BD
+    //numero de mesa (el original o el nuevo)
+    //Cantidad de asientos
+    //Estado
+    //Ubicacion
     this._tableStore.updateTableInDb(data).subscribe({
-      next: (t) => alert(`Mesa n° ${t.number} actualizada!`),
+      next: (t) => alert("Mesa modificada correctamente."),
       error: (err) => alert(err.error?.message || "Unexpected error")
     });
   }else{
     // CREAR
+    data.status = 'AVAILABLE';
     this._tableStore.addTableInDb(data).subscribe({
       next: (t) => alert(`Mesa creada correctamente.`),
       error: (err) => alert(err.error?.message || "Unexpected error")

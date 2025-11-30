@@ -32,23 +32,6 @@
 }
 
 .table-card-footer {
-  margin-top: 15px;
   display: flex;
   justify-content: space-between;
-}
-
-.btn-primary, .btn-danger {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  color: #fdf2f2;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #3498db;
-}
-
-.btn-danger {
-  background-color: #e74c3c;
 }

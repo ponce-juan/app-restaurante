@@ -13,13 +13,14 @@ import { ProductService } from '@services/product.service';
 import { TableForm } from '@components/table-form/table-form';
 import { TableStoreService } from '@core/services/table-store.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-tables-group-component',
   standalone: true,
   // imports: [TableComponent, TableManagement, TableForm],
-  imports: [TableComponent],
+  imports: [TableComponent, FormsModule],
   templateUrl: './tables-group-component.html',
   styleUrl: './tables-group-component.css'
 })
@@ -31,6 +32,7 @@ export class TablesGroupComponent implements OnInit{
 
   loading = signal(true)
   error = signal<string |null>(null);
+  tableNumberToDelete: number | null = null;
 
   ngOnInit(): void {
     this.loadTables();
@@ -54,6 +56,28 @@ export class TablesGroupComponent implements OnInit{
 
   addTable(){
     this.route.navigate(['/table-form'])
+  }
+  confirmDelete(){
+    //Si no ingreso un numero
+    if(!this.tableNumberToDelete){
+      alert("Debe ingresar un ID.");
+      return;
+    }
+    //Si el numero es menor que 1
+    if(this.tableNumberToDelete < 1){
+      alert("Número ID de mesa erróneo. Debe ser mayor que 0.")
+      return;
+    }
+
+    //Si ingreso un numero válido
+    this.tableStore.deleteTableInDb(this.tableNumberToDelete).subscribe({
+      next: () => alert("Mesa eliminada correctamente."),
+      error: (err) => {
+        alert(err.error?.message);
+      }      
+    })
+
+
   }
 
 

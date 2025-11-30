@@ -19,7 +19,6 @@ export class Orders implements OnInit{
   private _destroyRef: DestroyRef = inject(DestroyRef);
   private _orderTypesService = inject(OrderTypeService);
 
-  @Input({required: true}) products!: WritableSignal<Product[]>;
   @Input() table!: Table;
   
   public orderTypes = signal<OrderType[]>([]);

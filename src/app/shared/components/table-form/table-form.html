@@ -12,7 +12,7 @@
         formControlName="number"
       />
       @if(tableForm.get('number')?.touched &&
-       (tableForm.get('number')?.hasError('min'))){
+       ((tableForm.get('number')?.hasError('min')) || (tableForm.get('seats')?.hasError('required')))){
         <p class="text-danger">{{getFormErrorMessage('number')}}</p>
       }
     </div>
@@ -27,20 +27,22 @@
         formControlName="seats"
       />
       @if(tableForm.get('seats')?.touched && 
-        (tableForm.get('seats')?.hasError('min') || tableForm.get('seats')?.hasError('max'))){
+        (tableForm.get('seats')?.hasError('min') || tableForm.get('seats')?.hasError('max')) || (tableForm.get('seats')?.hasError('required'))){
         <p class="text-danger">{{getFormErrorMessage('seats')}}</p>
       }
     </div>
 
     <!-- Estado -->
-    <div class="col-12 col-md-6">
-      <label class="form-label">Estado</label>
-      <select class="form-select" formControlName="status">
-        <option value="AVAILABLE">Disponible</option>
-        <option value="OCCUPIED">Ocupada</option>
-        <option value="RESERVED">Reservada</option>
-      </select>
-    </div>
+    @if(this.tableID !== 0){
+      <div class="col-12 col-md-6">
+        <label class="form-label">Estado</label>
+        <select class="form-select" formControlName="status">
+          <option value="AVAILABLE">Disponible</option>
+          <option value="OCCUPIED">Ocupada</option>
+          <option value="RESERVED">Reservada</option>
+        </select>
+      </div>
+    } 
 
     <!-- Ubicación -->
     <div class="col-12 col-md-6">
