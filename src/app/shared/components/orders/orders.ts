@@ -1,6 +1,5 @@
 import { Component, DestroyRef, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { Product } from '@models/products.model';
-import { Table } from '@models/table.model';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Item, Order, OrderRequest, OrderStatus, OrderType } from '@core/models/order.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -8,6 +7,7 @@ import { OrderTypeService } from '@services/order-type.service';
 import { ProductService } from '@core/services/product.service';
 import { EventEmitter } from '@angular/core';
 import { OrderStoreService } from '@core/services/order-store.service';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-orders',
@@ -188,13 +188,15 @@ export class Orders implements OnInit{
     this.orderStore.addOrder(this._newOrderReq).subscribe({
       next: (order) => {
         console.log("Orden guardada correctamente: ", order);
+        //Genero el PDF de la orden
+        this._generateOrderPDF(order);
       },
       error: (err) => {
         console.error("Error al guardar la orden: ", err);
       }
     });
 
-    alert("Pedido registrado exitosamente.");
+    alert("Pedido registrado exitosamente.\nGenerando comprobante...");
 
     //Reset ordertype flag
     this.orderTypeSelected.set(false);
@@ -266,6 +268,32 @@ export class Orders implements OnInit{
     }
 
     return true;
+  }
+
+  //Genera un comprobante en PDF de la orden
+  private _generateOrderPDF(order: Order): void {
+    const doc = new jsPDF();
+
+    //Titulo
+    doc.setFontSize(18);
+    doc.text('Comprobante de Pedido', 105, 20, { align: 'center' });
+    
+    //Detalles de la orden
+    doc.setFontSize(12);
+    doc.text(`ID de Orden: ${order.id}`, 20, 40);
+    doc.text(`Tipo de Orden: ${order.type.type}`, 20, 50);
+    doc.text(`Estado: ${order.status.status}`, 20, 60);
+    doc.text(`Productos:`, 20, 70);
+    let yPos = 70;
+    order.items.forEach((item,index) => {
+      doc.text(`${index + 1}. ${item.name} - Cantidad: ${item.quantity} - Precio Unitario: $${item.price} - Subtotal: $${(item.price * item.quantity).toFixed(2)}`, 20, yPos+=10);
+    })
+    doc.text(`______________________________________________________________`, 20, yPos+=10);
+    doc.text(`Total: $${order.total.toFixed(2)}`, 140, yPos + 10, {align: 'right'});
+
+    //Guardo el PDF
+    doc.save(`Comprobante_Orden_${order.id}.pdf`);
+
   }
 
 }
