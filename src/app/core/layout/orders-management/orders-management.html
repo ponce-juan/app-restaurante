@@ -1,14 +1,12 @@
 <!-- Contenedor de ordenes en curso -->
-<h2 class="title text-center mt-2">ORDERS</h2>
-<div class="container d-flex flex-row">
-
-</div>
+<h2 class="title text-center mt-2">Ordenes en curso</h2>
+<app-order-carousel/>
 <div class="container d-flex text-center flex flex-column align-items-center mb-2">
     <button type="button" class="btn btn-success" 
-    (click)="generateNewOrder()">New Order</button>
+    (click)="generateNewOrder()">Registrar pedido</button>
     @if(this.showNewOrder()){
         <app-orders 
-        />
+            (closeOrderForm)="onCloseForm()"/>
     }
     <!-- <button type="button" class="btn btn-success">Take away</button>
     <button type="button" class="btn btn-success">Delivery</button>

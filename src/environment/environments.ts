@@ -12,10 +12,10 @@ export const environment = {
         subcategories: '/subcategories',
         products: '/products',
         employees: '/employees',
-        orders: '/orders',
+        ordersItems: '/order-items',
         orderTypes: '/order-types',
         orderStatus: '/order-status',
-        orderDetails: '/order-details',
+        orderCustomers: '/order-customers',
         companies: '/companies',
         tables: '/tables'
     }

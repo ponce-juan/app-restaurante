@@ -1,0 +1,11 @@
+.orders-wrapper {
+  max-width: 90dvw;
+  overflow-x: auto;          /* Scroll horizontal */
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  white-space: nowrap;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+

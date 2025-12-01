@@ -1,0 +1,10 @@
+<div class="orders-wrapper">
+  <div class="d-flex flex-row gap-2">
+    <!-- Card Ordenes -->
+    @for(order of this.orderStore.orders(); track $index){
+        <app-order-card [order]="order"/>
+    }
+
+  </div>
+</div>
+

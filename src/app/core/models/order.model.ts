@@ -1,14 +1,27 @@
 export interface Order {
-  id: number;
-  client?: string;
+  id?: number;
   type: OrderType;
   items: Item[];
+  status: OrderStatus;
   total: number;
 }
+
+export interface OrderRequest {
+  id?: number;
+  type: OrderType;
+  items: Item[];
+  status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELED";
+  total: number;
+}
+
 export interface Item {
   name: string;
   quantity: number;
   price: number;
+}
+export interface OrderStatus {
+  id: number;
+  status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELED";
 }
 
 export interface OrderType {

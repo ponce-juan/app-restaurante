@@ -1,0 +1,12 @@
+.order-card {
+  min-width: 180px;          /* Ancho mínimo de cada tarjeta */
+  flex: 0 0 auto;            /* Que no se encoja */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+  transform: scale(1.03);    /* Animación tipo carousel */
+}
+
+/* Agregar clases para colorear por estado de orden */

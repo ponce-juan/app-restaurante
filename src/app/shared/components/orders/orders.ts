@@ -1,11 +1,13 @@
-import { Component, DestroyRef, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { Product } from '@models/products.model';
 import { Table } from '@models/table.model';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import { Item, Order, OrderType } from '@core/models/order.model';
+import { Item, Order, OrderRequest, OrderStatus, OrderType } from '@core/models/order.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderTypeService } from '@services/order-type.service';
 import { ProductService } from '@core/services/product.service';
+import { EventEmitter } from '@angular/core';
+import { OrderStoreService } from '@core/services/order-store.service';
 
 @Component({
   selector: 'app-orders',
@@ -16,27 +18,36 @@ import { ProductService } from '@core/services/product.service';
 })
 export class Orders implements OnInit{
   
+  // @Input() table!: Table;
+  @Output() closeOrderForm = new EventEmitter<void>();
+
   private _destroyRef: DestroyRef = inject(DestroyRef);
   private _orderTypesService = inject(OrderTypeService);
   private _fb = inject(FormBuilder);
-  private itemsInOrder: Item[] = [];
+  
+  private _itemsInOrder: Item[] = [];
+  // orders: Order[] = [];
 
   public productService = inject(ProductService);
   public orderTypes = signal<OrderType[]>([]);
+  public orderStore = inject(OrderStoreService);
   loading = signal<boolean>(true);
   errormsg = signal<string | null>(null);
 
+  //FLAGS
+  orderTypeSelected= signal<boolean>(false);
+  selectedProduct: Product | null = null;
+  private _newOrderReq: OrderRequest = {} as OrderRequest;
 
-  orderForm = this._fb.group({  })
+  // orderForm = this._fb.group({  })
 
   itemForm = this._fb.group({
-    quantity: [1, [Validators.required, Validators.min(1)]]
+    quantity: this._fb.control<number>(1, [Validators.required, Validators.min(1)])
   });
 
-  @Input() table!: Table;
-  
-  selectedProduct: Product | null = null;
-  newOrder: Order = {} as Order;
+  orderTypeForm = this._fb.group({
+    type: this._fb.control<OrderType | null>(null, Validators.required)
+  });
 
   ngOnInit(){
     this.loadOrderTypes();
@@ -51,7 +62,7 @@ export class Orders implements OnInit{
     .pipe(takeUntilDestroyed(this._destroyRef))
     .subscribe({
       next: (types) => {
-        console.log(types)
+        // console.log(types)
         this.errormsg.set(null);
         this.loading.set(false);
         this.orderTypes.set(types.filter(t => t.type !== 'DINE_IN'));
@@ -88,70 +99,173 @@ export class Orders implements OnInit{
     // console.log(product);
   }
 
-  addItem(product: Product, qty: number){
-    const itemForm = this._fb.group({
-      name: [product.name, [Validators.required]],
-      quantity: [qty, [Validators.required, Validators.min(1), Validators.max(product.stock)]],
-      price: [product.price, [Validators.required, Validators.min(1)]]
-    });
+  //Transformo un producto en un item para la orden
+  prodToItem(product: Product): Item | null{
 
-    //Valido la cantidad ingresada
-    if(itemForm.get('quantity')?.hasError('min') || itemForm.get('quantity')?.hasError('max')){
-      alert(`Cantidad inválida. Debe ser entre 1 y ${product.stock}`);
-      return;
-    }
+    //Creo el item a agregar
+    const item: Item = {
+      name: product.name,
+      quantity: this.itemForm.get('quantity')?.value!!,
+      price: product.price
+    } as Item;
     
-    // const item: Item = {
-    //   name: itemForm.get('name')?.value!!,
-    //   quantity: itemForm.get('quantity')?.value!!,
-    //   price: itemForm.get('price')?.value!!
-    // }
-    const item: Item = itemForm.value as Item;
-    console.log(item);
-    //Lo agrego a la lista
-    //Verifico si existe
+    return item;
 
-    // this.itemsInOrder.push(item)
   }
 
+  //Agrego o actualizo un item en la orden
   addOrUpdateItem(item: Item, product: Product){
+  // addOrUpdateItem(item: Item, product: Product){
     //Verifico si existe el item en la lista
-    const index = this.itemsInOrder.findIndex(i => i.name.toLowerCase() === item.name.toLowerCase())
+    const index = this._itemsInOrder.findIndex(i => i.name.toLowerCase() === item.name.toLowerCase())
 
     //Si existe, actualizo la cantidad
     if(index !== -1){
-      const currentQty = this.itemsInOrder.at(index)?.quantity!!;
+      const currentQty = this._itemsInOrder[index].quantity;
       const newQty = currentQty + item.quantity;
 
       if(newQty > product.stock){
         alert(`No podes agregar mas de ${product.stock} unidades de este producto.`)
         return;
       }
-      this.itemsInOrder[index].quantity = newQty;
 
-      console.log("Se incremento la cantidad del item: ", this.itemsInOrder[index]);
-      return;
+      //Actualizo la cantidad del item existente
+      this._itemsInOrder[index].quantity = newQty;
+
+      // console.log("Se incremento la cantidad del item: ", this._itemsInOrder[index]);
+
+      //Actualizo la información del producto en DB
+      // this.updateProductStock(item, product);
+      // return;
+    }else{
+
+      //Si no existe, lo agrego
+      this._itemsInOrder.push(item);
     }
-    //Si no existe, lo agrego
-    this.itemsInOrder.push(item);
-    console.log("Se agrego un nuevo item: ", item);
+
+    // console.log("Se agrego un nuevo item: ", item);
+    // console.log(this._itemsInOrder)
+
+    //Actualizo la información del producto en DB
+    this.updateProductStock(item, product);
+    console.log("neworder: ", this._newOrderReq);
+    this.updateOrderTotal();
 
   }
 
-  submitFormNewOrder(): void {
+  updateOrderTotal(){
+    const total = this._itemsInOrder.reduce((acc, item) => {
+      return acc + (item.price * item.quantity)
+    }, 0);
+    this._newOrderReq.total = total;
+  }
 
+  //Actualizo el stock del producto en base de datos y estado global
+  updateProductStock(item: Item, product: Product){
+    const newStock = product.stock - item.quantity;
+    product.stock = newStock;
+    this.productService.updateProduct(product.id!, product)
+    .pipe(takeUntilDestroyed(this._destroyRef))
+    .subscribe({
+      next: (updatedProduct) => {
+        // console.log("Stock actualizado: ", updatedProduct);
+      },
+      error: (err) => {
+        console.error("Error al actualizar el stock del producto: ", err.error.message);
+      }
+    })
   }
 
   saveOrder(){
 
+    if(!this._validateForms()) return;
+
+    this._newOrderReq.items = [...this._itemsInOrder];
+    console.log("Nueva orden a guardar: ", this._newOrderReq);
+
+    // this.orders.push(this._newOrderReq);
+    //Actualizo ordenes en servicio globalmente
+    this.orderStore.addOrder(this._newOrderReq).subscribe({
+      next: (order) => {
+        console.log("Orden guardada correctamente: ", order);
+      },
+      error: (err) => {
+        console.error("Error al guardar la orden: ", err);
+      }
+    });
+
+    alert("Pedido registrado exitosamente.");
+
+    //Reset ordertype flag
+    this.orderTypeSelected.set(false);
+    //Emito evento para cerrar el formulario
+    this.closeOrderForm.emit();
   }
 
   cancelOrder(): void {
-    
+
+    this.selectedProduct = null;
+    this.orderTypeSelected.set(false);
+    this.closeOrderForm.emit();
   }
 
   confirmAddProductToOrder(){
-    this.addItem(this.selectedProduct!, this.itemForm.get('quantity')?.value!!);
+    // console.log("ordertypeform: ordertype: ", this.orderTypeForm.value.type as OrderType);
+    // this.addItem(this.selectedProduct!, this.itemForm.get('quantity')?.value!!);
+    //Si los forms no son validos, retorno
+    if(!this._validateForms()) return;
+
+    //Cargo los datos INMUTABLES de la orden
+    if(this._newOrderReq.id === undefined){
+      // console.log("Asignando datos inmutables a la orden...");
+      // this._newOrderReq.id = new Date().getTime(); //ID que se asigna en base de datos
+      this._newOrderReq.status = 'PENDING'; //Estado inicial
+      this._newOrderReq.type = this.orderTypeForm.value.type!;
+      
+      this._newOrderReq.items = this._itemsInOrder;
+      this._newOrderReq.total = 0; //Se calcula al agregar items
+      this.updateOrderTotal();
+
+      //Asigno flag para no cambiar el tipo de orden de nuevo
+      this.orderTypeSelected.set(true);
+      this.orderTypeForm.get('type')?.disable();
+    }
+    //Creo el item a agregar
+    const item = this.prodToItem(this.selectedProduct!);
+
+    //LLamo a la funcion que agrega o actualiza el item en la lista
+    this.addOrUpdateItem(item!, this.selectedProduct!);
+    
+  }
+
+  //Validaciones del formulario, retorna true si es valido
+  private _validateForms(): boolean {
+    
+    //Valido que se haya seleccionado un producto
+    if(this.selectedProduct === null){
+      alert("Seleccione un producto para agregar a la orden.");
+      return false;
+    }
+    
+    //Valido la cantidad ingresada
+    if(this.itemForm.get('quantity')?.hasError('min') || this.itemForm.get('quantity')?.hasError('max')){
+      alert(`Cantidad inválida. Debe ser entre 1 y ${this.selectedProduct?.stock}`);
+      return false;
+    }
+    
+    //Valido que se haya seleccionado un tipo de orden
+    if(this.orderTypeForm.get('type')?.value === null){
+      alert("Seleccione un tipo de orden.");
+      return false;
+    }
+
+    //Valido que los formularios sean validos
+    if(this.orderTypeForm.invalid || this.itemForm.invalid){
+      alert("Datos inválidos. Ingrese los campos correctamente.")
+      return false;
+    }
+
+    return true;
   }
 
 }

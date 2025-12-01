@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, Input, inject, WritableSignal } from '@angular/core';
 import { Table } from '@models/table.model';
 import { TableManagerService } from '@services/table-manager-service';
-import { OrderType } from '@core/models/order.model';
+import { OrderStatus, OrderType } from '@core/models/order.model';
 import { TableStoreService } from '@core/services/table-store.service';
 import { Router } from '@angular/router';
 
@@ -17,6 +17,7 @@ export class TableComponent {
   
   private _tableManagerService = inject(TableManagerService);
   private _tableStore = inject(TableStoreService)
+  
   private router = inject(Router);
 
   @Input({required: true}) table!: Table;
@@ -81,6 +82,7 @@ export class TableComponent {
       this.table.order = {
         id: Date.now(),
         type: {} as OrderType,
+        status: { status: 'PENDING'} as OrderStatus,
         items: [],
         total: 0
       };
@@ -105,6 +107,7 @@ export class TableComponent {
       this.table.order = {
         id: Date.now(),
         type: {} as OrderType,
+        status: { status: 'PENDING'} as OrderStatus,
         items: [],
         total: 0
       };

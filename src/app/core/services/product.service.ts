@@ -29,15 +29,30 @@ export class ProductService {
   }
 
   addProduct(product: Product): Observable<Product> {
-    return this._http.post<Product>(this.apiUrl, product);
+    return this._http.post<Product>(this.apiUrl, product).pipe(
+      tap((newProduct) => {
+        //Actualizo la lista de productos
+        this._products.update((p) => [...p, newProduct]);
+      })
+    );
   }
 
   updateProduct(prodId: number, newProduct: Product): Observable<Product>{
-    return this._http.put<Product>(`${this.apiUrl}/${prodId}`, newProduct);
+    return this._http.put<Product>(`${this.apiUrl}/${prodId}`, newProduct).pipe(
+      tap((newProduct) => {
+        //Actualizo la lista de productos
+        this._products.update((p) => p.map(prod => prod.id === prodId ? newProduct : prod));
+      })
+    );
   }
 
   deleteProduct(prodId: number){
-    return this._http.delete(`${this.apiUrl}/${prodId}`);
+    return this._http.delete(`${this.apiUrl}/${prodId}`).pipe(
+      tap(() => {
+        //Actualizo la lista de productos
+        this._products.update((p) => p.filter(prod => prod.id !== prodId));
+      })
+    );
   }
 
 }
